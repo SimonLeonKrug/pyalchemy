@@ -65,7 +65,7 @@ Parameters:
 - `mole` (_list_ of _list_) : a list of lists of the 4D coordinates (nuclear charge $\enspace Z $, coordinates $\enspace x, y, z $) of all atoms, i.e. `[[Z1, x1, y1, z1], [Z2, x2, y2, z2], ...]`
 - `n_x, n_y, n_z` (_int_) : order of the derivative
 - `x, y, z` (_float_): coordinates
-- `nuc_rad` (_float_, _optional_) : an optional nuclear radius $\enspace \eta $, such that the Coulomb potential is rendered finite everywhere: $\enspace -Z_1 [(x - x_1)^2 + (y - y_1)^2 + (z - z_1)^2]^{-1} \rightarrow -Z_1 [(x - x_1)^2 + (y - y_1)^2 + (z - z_1)^2 + \eta^2]^{-1} $
+- `nuc_rad` (_float_, _optional_) : an optional nuclear radius $\enspace \eta $, such that the Coulomb potential is rendered finite everywhere: $\enspace -Z_1 [(x - x_1)^2 + (y - y_1)^2 + (z - z_1)^2]^{-1/2} \rightarrow -Z_1 [(x - x_1)^2 + (y - y_1)^2 + (z - z_1)^2 + \eta^2]^{-1/2} $
 
 Returns:
 - the $\enspace n_x,n_y, n_z$-th derivative of the external potential of `mole` with nuclear radius `nuc_rad` at $\enspace x,y,z $, i.e. $\enspace \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_{\text{mole}}(x,y,z) $
