@@ -4,7 +4,9 @@ A library which provides implementations of the kernel $\space\mathcal{K} $ of t
 Throughout this README and the code, [Hartree atomic units](https://en.wikipedia.org/wiki/Hartree_atomic_units) are used.
 
 ## Introduction
-Instead of calculating electronic energies of systems one at a time, this kernel provides a shortcut. By using an initial system's ($A$) electron density $\rho_A(\vec{r})$, one can calculate the energy difference to any other system ($B$) within the radius of convergence of AIT. A complete explanation and introduction of the concept can be found under https://arxiv.org/abs/2203.13794 . Consider the two system's $A$ and $B$ with their respective external potentials $v_A$ and $v_B$. Then their energy difference is given by
+Instead of calculating electronic energies of systems one at a time, this kernel provides a shortcut. By using an initial system's ($A$) electron density $\rho_A(\vec{r})$, one can calculate the energy difference to any other system ($B$) within the radius of convergence of AIT. A complete explanation and introduction of the concept can be found under https://arxiv.org/abs/2203.13794 .
+
+Consider the two system's $A$ and $B$ with their respective external potentials $v_A$ and $v_B$. Then their energy difference is given by
 
 $$ E_B - E_A = \int_{\mathbb{R}^3} d\vec{r} \enspace \rho_A \left( \vec{r} \right) \mathcal{K} \left( \vec{r}, v_A, v_B \right) $$
 
@@ -73,7 +75,7 @@ Returns:
 - the $\enspace n_x,n_y, n_z$-th derivative of the external potential of `mole` with nuclear radius `nuc_rad` at $\enspace x,y,z $, i.e. $\enspace \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_{\text{mole}}(x,y,z) $
 
 
-## Examples, tricks and utility
+## Examples, tricks and functionality
 
 #### The hydrogen-like atom in 1D
 
