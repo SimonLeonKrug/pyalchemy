@@ -28,9 +28,19 @@ Parameters:
 - `verbose` (_bool_, _optional_) : when `True`, prints a warning if the naive convergence criterion $\enspace |1 - v_B(x)/v_A(x)| < 1 $ is violated. This does not imply divergence of the series but may hint towards too large differences between initial and final system.
 
 Returns:
-- `kernel_1D` (_float_) : the 1D kernel of AIT between systems $\enspace A$ and $\enspace B$ at $\enspace x $ for all orders in `orders`.
+- `kernel_1D` (_float_) : the 1D kernel of AIT between systems $\enspace A $ and $\enspace B $ at $\enspace x $ for all orders in `orders`.
 
 #### `kernel_2D(partial_v_A, partial_v_B, x,y, orders = [1,2,3], verbose = False)`
+
+Parameters:
+- `partial_v_A` (_callable_) : a function of the initial system's external potential in 2D. It expects four arguments, $\enspace n_x, n_y $ and $\enspace x, y $, such that `partial_v_A(n_x, n_y, x, y)` $= \frac{\partial^{n_x + n_y} }{\partial x^{n_x} \partial y^{n_y} } v_A(x,y) $
+- `partial_v_B` (_callable_) : a function of the final system's external potential in 2D. It expects four arguments, $\enspace n_x, n_y $ and $\enspace x, y $, such that `partial_v_B(n_x, n_y, x, y)` $= \frac{\partial^{n_x + n_y} }{\partial x^{n_x} \partial y^{n_y} } v_B(x,y) $
+- `x, y` (_float_): coordinates
+- `orders` (_list_, _optional_) : a list of the orders $\enspace p $ in the kernel to be summed over. Recommended are at least `[1,2,3]`, precise is `[1,2,3,4,5]`. $\enspace p $ is implemented up to and including 9-th order which is ridiculous overkill.
+- `verbose` (_bool_, _optional_) : when `True`, prints a warning if the naive convergence criterion $\enspace |1 - v_B(x,y)/v_A(x,y)| < 1 $ is violated. This does not imply divergence of the series but may hint towards too large differences between initial and final system.
+
+Returns:
+- `kernel_2D` (_float_) : the 2D kernel of AIT between systems $\enspace A $ and $\enspace B $ at $\enspace x, y $ for all orders in `orders`.
 
 #### `kernel_3D(partial_v_A, partial_v_B, x,y,z, orders = [1,2,3], verbose = False)`
 
