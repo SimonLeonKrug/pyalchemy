@@ -18,6 +18,7 @@ Analytical expressions for 2D and 1D can be achieved by dropping $\enspace z $- 
 Because it is so tedious to implement, `pyalchemy` already provides these kernels. It does not provide any electron densities, nor functions for numerical integration. Both must be handled with other libraries.
 
 ## Syntax
+
 #### `kernel_1D(partial_v_A, partial_v_B, x, orders = [1,2,3], verbose = False)`
     
 Parameters:
@@ -30,6 +31,7 @@ Parameters:
 Returns:
 - `kernel_1D` (_float_) : the 1D kernel of AIT between systems $\enspace A $ and $\enspace B $ at $\enspace x $ for all orders in `orders`.
 
+---
 #### `kernel_2D(partial_v_A, partial_v_B, x,y, orders = [1,2,3], verbose = False)`
 
 Parameters:
@@ -42,8 +44,31 @@ Parameters:
 Returns:
 - `kernel_2D` (_float_) : the 2D kernel of AIT between systems $\enspace A $ and $\enspace B $ at $\enspace x, y $ for all orders in `orders`.
 
+---
 #### `kernel_3D(partial_v_A, partial_v_B, x,y,z, orders = [1,2,3], verbose = False)`
 
+Parameters:
+- `partial_v_A` (_callable_) : a function of the initial system's external potential in 3D. It expects six arguments, $\enspace n_x, n_y, n_z $ and $\enspace x, y, z $, such that `partial_v_A(n_x, n_y, n_z, x, y, z)` $= \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_A(x,y,z) $
+- `partial_v_B` (_callable_) : a function of the final system's external potential in 3D. It expects six arguments, $\enspace n_x, n_y, n_z $ and $\enspace x, y, z $, such that `partial_v_B(n_x, n_y, n_z, x, y, z)` $= \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_B(x,y,z) $
+- `x, y, z` (_float_): coordinates
+- `orders` (_list_, _optional_) : a list of the orders $\enspace p $ in the kernel to be summed over. Recommended are at least `[1,2,3]`, precise is `[1,2,3,4,5]`. $\enspace p $ is implemented up to and including 9-th order which is ridiculous overkill.
+- `verbose` (_bool_, _optional_) : when `True`, prints a warning if the naive convergence criterion $\enspace |1 - v_B(x,y,z)/v_A(x,y,z)| < 1 $ is violated. This does not imply divergence of the series but may hint towards too large differences between initial and final system.
+
+Returns:
+- `kernel_3D` (_float_) : the 3D kernel of AIT between systems $\enspace A $ and $\enspace B $ at $\enspace x, y, z $ for all orders in `orders`.
+
+---
 #### `partial_v_mol_3D(mole, n_x, n_y, n_z, x, y, z, nuc_rad = 0)`
+A built-in function for the external potential in 3D of a given molecule and its spatial derivatives. These derivatives are analytical up to and including third order $\enspace n_x+n_y+n_z \leq 3$, and defined recursively via finite differences for higher orders.
+
+Parameters:
+- `mole` (_list_ of _list_) : a list of lists of the 4D coordinates (nuclear charge $\enspace Z $, coordinates $\enspace x, y, z $) of all atoms, i.e. `[[Z1, x1, y1, z1], [Z2, x2, y2, z2], ...]`
+- `n_x, n_y, n_z` (_int_) : order of the derivative
+- `x, y, z` (_float_): coordinates
+- `nuc_rad` (_float_, _optional_) : an optional nuclear radius $\enspace \eta $, such that the Coulomb potential is rendered finite everywhere: $\enspace -Z_1 [(x - x_1)^2 + (y - y_1)^2 + (z - z_1)^2]^{-1} \rightarrow -Z_1 [(x - x_1)^2 + (y - y_1)^2 + (z - z_1)^2 + \eta^2]^{-1} $
+
+Returns:
+- the $\enspace n_x,n_y, n_z$-th derivative of the external potential of `mole` with nuclear radius `nuc_rad` at $\enspace x,y,z $, i.e. $\enspace \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_{\text{mole}}(x,y,z) $
+
 
 ## Examples
