@@ -15,7 +15,7 @@ $$S_p := \left\lbrace \mu_x, \mu_y, \mu_z, k_1, \dots, k_{p-1} \in \mathbb{N}\_{
 
 Analytical expressions for 2D and 1D can be achieved by dropping $\enspace z $- or $\enspace y,z $-dependencies and forcing $\enspace \mu_z = 0 $ or $\enspace \mu_y = \mu_z = 0 $.
 
-Because it is so tedious to implement, `pyalchemy` already provides these kernels. It does not provide any electron densities, nor functions for numerical integration. Both must be handled with other libraries.
+Because it is tedious to implement, `pyalchemy` already provides these kernels. It does not provide any electron densities, or functions for numerical integration. Both must be handled with other libraries.
 
 ## Syntax
 
