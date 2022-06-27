@@ -18,12 +18,22 @@ Analytical expressions for 2D and 1D can be achieved by dropping $\enspace z $- 
 Because it is so tedious to implement, `pyalchemy` already provides these kernels. It does not provide any electron densities, nor functions for numerical integration. Both must be handled with other libraries.
 
 ## Syntax
-`kernel_1D(partial_v_A, partial_v_B, x, orders = [1,2,3], verbose = False)`
+#### `kernel_1D(partial_v_A, partial_v_B, x, orders = [1,2,3], verbose = False)`
+    
+Parameters:
+- `partial_v_A` (_callable_) : a function of the initial system's external potential in 1D. It expects two arguments, $\enspace n_x $ and $\enspace x $, such that `partial_v_A(n_x, x)` $= \frac{\partial^{n_x} }{\partial x^{n_x}} v_A(x) $
+- `partial_v_B` (_callable_) : a function of the final system's external potential in 1D. It expects two arguments, $\enspace n_x $ and $\enspace x $, such that `partial_v_B(n_x, x)` $= \frac{\partial^{n_x} }{\partial x^{n_x}} v_B(x) $
+- `x` (_float_): coordinate
+- `orders` (_list_, _optional_) : a list of the orders $\enspace p $ in the kernel to be summed over. Recommended are at least `[1,2,3]`, precise is `[1,2,3,4,5]`. $\enspace p $ is implemented up to and including 9-th order which is ridiculous overkill.
+- `verbose` (_bool_, _optional_) : when `True`, prints a warning if the naive convergence criterion $\enspace |1 - v_B(x)/v_A(x)| < 1 $ is violated. This does not imply divergence of the series but may hint towards too large differences between initial and final system.
 
-`kernel_2D(partial_v_A, partial_v_B, x,y, orders = [1,2,3], verbose = False)`
+Returns:
+- `kernel_1D` (_float_) : the 1D kernel of AIT between systems $\enspace A$ and $\enspace B$ at $\enspace x $ for all orders in `orders`.
 
-`kernel_3D(partial_v_A, partial_v_B, x,y,z, orders = [1,2,3], verbose = False)`
+#### `kernel_2D(partial_v_A, partial_v_B, x,y, orders = [1,2,3], verbose = False)`
 
-`partial_v_mol_3D(mole, n_x, n_y, n_z, x, y, z, nuc_rad = 0)`
+#### `kernel_3D(partial_v_A, partial_v_B, x,y,z, orders = [1,2,3], verbose = False)`
+
+#### `partial_v_mol_3D(mole, n_x, n_y, n_z, x, y, z, nuc_rad = 0)`
 
 ## Examples
