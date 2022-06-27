@@ -19,7 +19,7 @@ Analytical expressions for 2D and 1D can be achieved by dropping $\enspace z $- 
 
 Because it is tedious to implement, `pyalchemy` already provides these kernels. It does not provide any electron densities, or functions for numerical integration. Both must be handled with other libraries.
 
-## Syntax
+## Documentation
 
 #### `kernel_1D(partial_v_A, partial_v_B, x, orders = [1,2,3], verbose = False)`
     
@@ -73,4 +73,14 @@ Returns:
 - the $\enspace n_x,n_y, n_z$-th derivative of the external potential of `mole` with nuclear radius `nuc_rad` at $\enspace x,y,z $, i.e. $\enspace \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_{\text{mole}}(x,y,z) $
 
 
-## Examples
+## Examples, tricks and utility
+
+#### The hydrogen-like atom in 1D
+
+#### The quantum harmonic oscillator in 1D
+
+#### The Morse-potential in 1D
+
+#### Multi-electron atoms in 3D
+
+#### Periodic systems in nD
