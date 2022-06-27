@@ -8,7 +8,7 @@ with 3D-kernel
 $$ \mathcal{K} \left( \vec{r}, v_A, v_B \right) = \sum_{p = 1}^{\infty} \frac{1}{p} \left(1 - \frac{v_B(\vec{r})}{v_A(\vec{r})} \right)^{p-1} \sum_{S_p} \frac{\partial^{\mu_x + \mu_y + \mu_z} v_B(\vec{r}) - v_A(\vec{r})}{\partial x^{\mu_x} \partial y^{\mu_y} \partial z^{\mu_z}}
     \left[\prod_{i = 1}^{p-1} \frac{ \left( x + y + z \right)^{k_i}}{k_i!} \right]$$
 
-$$S_p := \left\lbrace \mu_x, \mu_y, \mu_z, k_1, \dots, k_{p-1} \in {\mathbb{N}^0}  \enspace \Bigg\vert \enspace p-1 = \sum_{i=1}^{p-1} i \cdot k_i , \enspace \mu_x + \mu_y + \mu_z = \sum_{i=1}^{p-1} k_i\right\rbrace$$
+$$S_p := \left\lbrace \mu_x, \mu_y, \mu_z, k_1, \dots, k_{p-1} \in \mathbb{N}\_{0}  \enspace \Bigg\vert \enspace p-1 = \sum_{i=1}^{p-1} i \cdot k_i , \enspace \mu_x + \mu_y + \mu_z = \sum_{i=1}^{p-1} k_i\right\rbrace$$
 
 Analytical expressions for 2D and 1D can be achieved by dropping $\enspace z $- or $\enspace y,z $-dependencies and forcing $\enspace \mu_z = 0 $ or $\enspace \mu_y = \mu_z = 0 $.
 
