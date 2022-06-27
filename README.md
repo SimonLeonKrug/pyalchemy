@@ -6,7 +6,7 @@ Throughout this README and the code, [Hartree atomic units](https://en.wikipedia
 ## Introduction
 Instead of calculating electronic energies of systems one at a time, this kernel provides a shortcut. By using an initial system's ($A$) electron density $\rho_A(\vec{r})$, one can calculate the energy difference to any other system ($B$) within the radius of convergence of AIT. A complete explanation and introduction of the concept can be found under https://arxiv.org/abs/2203.13794 .
 
-Consider the two system's $A$ and $B$ with their respective external potentials $v_A$ and $v_B$. Then their energy difference is given by
+Consider the two system's $A$ and $B$ with their external potentials $v_A$ and $v_B$. Then their electronic energy difference is given by
 
 $$ E_B - E_A = \int_{\mathbb{R}^3} d\vec{r} \enspace \rho_A \left( \vec{r} \right) \mathcal{K} \left( \vec{r}, v_A, v_B \right) $$
 
