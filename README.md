@@ -76,7 +76,7 @@ Returns:
 
 
 ## Examples, tricks and functionality
-The following examples are descirbed in the SI of the [paper](https://arxiv.org/abs/2203.13794); except for the periodic systems and complemented by a multi-electron atom example added, all codes can be found in the folder `examples`.
+The following examples are descirbed in the SI of the [paper](https://arxiv.org/abs/2203.13794). Except for the periodic systems and complemented by a multi-electron atom example, all codes can be found in the folder `examples`.
 
 #### The hydrogen-like atom in 1D
 
