@@ -3,6 +3,8 @@ A library which provides implementations of the kernel $\space\mathcal{K} $ of t
 
 Throughout this README and the code, [Hartree atomic units](https://en.wikipedia.org/wiki/Hartree_atomic_units) are used.
 
+The library's code can be found in `src/pyalchemy/main.py`
+
 ## Introduction
 Instead of calculating electronic energies of systems one at a time, this kernel provides a shortcut. By using an initial system's ($A$) electron density $\rho_A(\vec{r})$, one can calculate the energy difference to any other system ($B$) within the radius of convergence of AIT. A complete explanation and introduction of the concept can be found under https://arxiv.org/abs/2203.13794 .
 
