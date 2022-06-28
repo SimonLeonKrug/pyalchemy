@@ -78,12 +78,34 @@ Returns:
 ## Examples, tricks and functionality
 The following examples are descirbed in the SI of the [paper](https://arxiv.org/abs/2203.13794). Except for the periodic systems and complemented by a multi-electron atom example, all codes can be found in the folder `examples`.
 
+---
 #### The hydrogen-like atom in 1D
 
+Consider the (purely radial) potential of the hydrogen-like atom:
+
+$$ v(r) = -\frac{Z}{r}$$
+
+The eigenenergies are given by
+
+$$ E = -\frac{Z^2}{2n^2}$$
+
+and the spherically-averaged electron density by
+
+$$ \bar{\rho} (r, n, Z) = \frac{1}{n^2} \sum_{l = 0}^{n-1} \frac{2l+1}{4\pi} \left( \frac{2Z}{n} \right)^3 \left( \frac{2Z r}{n} \right)^{2l} \left( L_{n-l-1}^{(2l+1)}\left( \frac{2Zr}{n}\right) \right)^2 \frac{(n-l-1)!}{2n (n+l)!} \exp{\left(- \frac{2Zr}{n}\right)} $$
+
+with generalized Laguerre polynomials $\\, L $. We neglected the change of the reduced mass $\\, \mu $ with increasing nuclear mass and chose $\\, \mu \approx m_e $, hence $\\, a_{\mu} \approx a_0 =1 $ in atomic units.
+
+The radially-averaged hydrogen-like atom can be treated with the kernel in 1D, i.e. we find
+
+$$ \Delta E_{BA} = -\frac{Z_B^2 - Z_A^2}{2n^2} = \int\limits_{0}^{\infty} dr \\, 4\pi r^2 \bar{\rho}_A(r,n,Z_A) \\, \mathcal{K}\left(r, v_A, v_B \right) $$
+
+---
 #### The quantum harmonic oscillator in 1D
 
+---
 #### The Morse-potential in 1D
 
+---
 #### Periodic systems in nD
 
 For AIT in periodic systems, one replaces any one-cell-potential by an effective one $\\, v^{\text{eff}}(\vec{r}) $ and uses the borders of the cell $\\, \Omega^n $ as limits of integration:
