@@ -11,8 +11,8 @@ import basis_set_exchange as bse # For easy access to different basis sets
 n_e = 8 #must be an integer!
 
 # nuclear charges
-Z_A = 7
-Z_B = 8
+Z_A = 8
+Z_B = 7
 
 basis_set = 'def2-TZVP'
 reference_atom = 'Xe'

@@ -47,7 +47,7 @@ def partial_v_mol_3D(mole, n_x, n_y, n_z, x, y, z, nuc_rad = 0):
         with nuclear radius `nuc_rad` at `x,y,z`,
          i.e. :math:`\frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_{\text{mole}}(x,y,z)`
 
-         
+
     """
     sum = 0
     #-----------------------------0-th derivatives------------------------------
@@ -329,7 +329,7 @@ def kernel_1D(partial_v_A, partial_v_B, x, orders = [1,2,3], verbose = False):
         too large differences between initial and final system.
 
     Returns
-    ----------
+    -------
     float
         The 1D kernel of AIT between systems A and B at `x` for all orders in `orders`.
 
@@ -372,7 +372,7 @@ def kernel_2D(partial_v_A, partial_v_B, x,y, orders = [1,2,3], verbose = False):
         too large differences between initial and final system.
 
     Returns
-    ----------
+    -------
     float
         The 2D kernel of AIT between systems A and B at `x, y` for all orders in `orders`.
 
@@ -415,7 +415,7 @@ def kernel_3D(partial_v_A, partial_v_B, x,y,z, orders = [1,2,3], verbose = False
         too large differences between initial and final system.
 
     Returns
-    ----------
+    -------
     float
         The 3D kernel of AIT between systems A and B at `x, y, z` for all orders in `orders`.
 
