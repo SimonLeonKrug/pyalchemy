@@ -68,7 +68,7 @@ Using AIT to obtain the energy difference between two such systems A and B with 
 $$ \Delta E_{BA} = (\omega_B - \omega_A) (n+\frac{1}{2}) = \int\limits_{-\infty}^{+\infty} dx \\, \rho_A(x) \\, \\, \mathcal{K} \left( x, v_A + \Lambda_{\text{reg}} , v_B + \Lambda_{\text{reg}} \right) $$
 
 ---
-#### The Morse-potential in 1D
+#### The Morse potential in 1D
 
 Consider the one-dimensional [Morse potential](https://backend.orbit.dtu.dk/ws/portalfiles/portal/3620619/Dahl.pdf) centered around $\\, x_0 $ with well depth $\\, D $ and range parameter $\\, a $:
 
@@ -90,7 +90,7 @@ $$ N(z,n) = \sqrt{\frac{(2z-2n-1) \\, \Gamma (n+1)}{\Gamma (2z-n)}} $$
 
 where $\\, L $ are the generalized Laguerre polynomials.
 
-Again, adding a regulatory constant $\\, \Lambda_{\text{reg}} $ to initial and final potential in the kernel enables us to obtain the energy difference $\\, \Delta E_{BA} $ between to systems $\\, A $ and $\\, B $ with small numerical error.
+Again, adding a regulatory constant $\\, \Lambda_{\text{reg}} $ to initial and final potential in the kernel enables us to obtain the energy difference $\\, \Delta E_{BA} $ between two systems $\\, A $ and $\\, B $ with small numerical error.
 
 ---
 #### Periodic systems in nD
