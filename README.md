@@ -85,3 +85,7 @@ The following examples are descirbed in the SI of the [paper](https://arxiv.org/
 #### The Morse-potential in 1D
 
 #### Periodic systems in nD
+
+For AIT in periodic systems, one replaces any one-cell-potential by an effective one $\\, v(\vec{r}) $ and uses the borders of the cell $\\, \Omega^n $ as limits of integration:
+
+$$ \Delta E^{\text{cell}}\_{BA} =  \\,\int_{\Omega^n} d\vec{r}_A\, \rho_A \left( \vec{r}_A \right) \\, \\, \mathcal{K} \left( \vec{r}_A, v^{\text{eff}}_A, v^{\text{eff}}_B \right) $$
