@@ -86,6 +86,8 @@ The following examples are descirbed in the SI of the [paper](https://arxiv.org/
 
 #### Periodic systems in nD
 
-For AIT in periodic systems, one replaces any one-cell-potential by an effective one $\\, v(\vec{r}) $ and uses the borders of the cell $\\, \Omega^n $ as limits of integration:
+For AIT in periodic systems, one replaces any one-cell-potential by an effective one $\\, v^{\text{eff}}(\vec{r}) $ and uses the borders of the cell $\\, \Omega^n $ as limits of integration:
 
-$$ \Delta E^{\text{cell}}\_{BA} =  \\,\int_{\Omega^n} d\vec{r}_A\, \rho_A \left( \vec{r}_A \right) \\, \\, \mathcal{K} \left( \vec{r}_A, v^{\text{eff}}_A, v^{\text{eff}}_B \right) $$
+$$ \Delta E^{\text{cell}}\_{BA} =  \\,\int_{\Omega^n} d\vec{r}\\, \rho_A \left( \vec{r} \right) \\, \\, \mathcal{K} \left( \vec{r}, v^{\text{eff}}_A, v^{\text{eff}}_B \right) $$
+
+This gives the energy difference between two periodic systems per cell.
