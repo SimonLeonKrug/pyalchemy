@@ -74,6 +74,7 @@ Parameters:
 Returns:
 - the $\\, n_x,n_y, n_z$-th derivative of the external potential of `mole` with nuclear radius `nuc_rad` at $\\, x,y,z $, i.e. $\\, \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_{\text{mole}}(x,y,z) $
 
+---
 
 ## Examples, tricks and functionality
 The following examples are descirbed in the SI of the [paper](https://arxiv.org/abs/2203.13794). Except for the periodic systems and complemented by a multi-electron atom example, all codes can be found in the folder `examples`.
@@ -102,8 +103,47 @@ $$ \Delta E_{BA} = -\frac{Z_B^2 - Z_A^2}{2n^2} = \int\limits_{0}^{\infty} dr \\,
 ---
 #### The quantum harmonic oscillator in 1D
 
+Consider the potential of the one-dimensional harmonic oscillator
+
+$$ v(x) = \frac{\omega^2}{2}x^2 $$
+
+with eigenenergies
+$$ E_n = \omega \\, (n+\frac{1}{2}) $$
+
+and density
+
+$$ \rho (x) = \frac{1}{2^n \\, n!} \sqrt{\frac{\omega}{\pi}} \exp \left(-\omega x^2 \right) \\, \left( H_n \left( \sqrt{\omega} x\right) \right)^2 $$
+
+where $\\, H_n $ are the physicist's Hermite polynomials.
+
+Using AIT to obtain the energy difference between two such systems A and B with frequencies $\\, \omega_A $ and $\\, \omega_B $ proves to be difficult numerically. These numerical difficulties come from the convergence behavior of the series in $\\, \mathcal{K}(x, v_B, v_A) $ and can be evaded by adding a regulatory energy constant $\\, \Lambda_{\text{reg}} \gg \Delta E_{BA} $ to initial and final potential. The energy difference between the systems $\\, \Delta E_{BA} $ and the desnity are unaffected by this but the convergence behavior of the kernel changes towards more favorable regimes.
+
+$$ \Delta E_{BA} = (\omega_B - \omega_A) (n+\frac{1}{2}) = \int\limits_{-\infty}^{+\infty} dx \\, \rho_A(x) \\, \\, \mathcal{K} \left( x, v_A + \Lambda_{\text{reg}} , v_B + \Lambda_{\text{reg}} \right) $$
+
 ---
 #### The Morse-potential in 1D
+
+Consider the one-dimensional [Morse potential](https://backend.orbit.dtu.dk/ws/portalfiles/portal/3620619/Dahl.pdf) centered around $\\, x_0 $ with well depth $\\, D $ and range parameter $\\, a $:
+
+$$ v(x) = D \\, \left( \exp (-2a (x - x_0)) - 2\exp (-a (x - x_0))\right) $$
+
+with energy eigenvalue
+
+$$ E_n = \sqrt{2D} \\, a \left(n+\frac{1}{2}\right)  \left(1 - \frac{a}{2\sqrt{2D}}\left(n+\frac{1}{2}\right) \right) - D $$
+
+and wave function 
+
+$$ \Psi_n (x) = N(z,n) \sqrt{a} \\, \xi^{z-n-1/2} e^{-\xi/2} L^{(2z-2n-1)}_n (\xi) $$
+
+$$ z = \frac{2D}{a} $$
+
+$$ \xi = 2z\cdot e^{-a(x-x_0)} $$
+
+$$ N(z,n) = \sqrt{\frac{(2z-2n-1) \\, \Gamma (n+1)}{\Gamma (2z-n)}} $$
+
+where $\\, L $ are the generalized Laguerre polynomials.
+
+Again, adding a regulatory constant $\\, \Lambda_{\text{reg}} $ to initial and final potential in the kernel enables us to obtain the energy difference $\\, \Delta E_{BA} $ between to systems $\\, A $ and $\\, B $ with small numerical error.
 
 ---
 #### Periodic systems in nD
@@ -113,3 +153,6 @@ For AIT in periodic systems, one replaces any one-cell-potential by an effective
 $$ \Delta E^{\text{cell}}\_{BA} =  \\,\int_{\Omega^n} d\vec{r}\\, \rho_A \left( \vec{r} \right) \\, \\, \mathcal{K} \left( \vec{r}, v^{\text{eff}}_A, v^{\text{eff}}_B \right) $$
 
 This gives the energy difference between two periodic systems per cell.
+
+---
+ 
