@@ -24,7 +24,7 @@ Analytical expressions for 2D and 1D can be achieved by dropping $\\, z $- or $\
 Because it is tedious to implement, `pyalchemy` already provides these kernels. It does not provide any electron densities, or functions for numerical integration. Both must be handled with other libraries.
 
 ## Examples, tricks and functionality
-The following examples are descirbed in the SI of the [paper](https://arxiv.org/abs/2203.13794). Except for the periodic systems and complemented by a multi-electron atom example, all codes can be found in the folder `examples`.
+The following examples are described in the SI of the [paper](https://arxiv.org/abs/2203.13794). Except for the periodic systems and complemented by a multi-electron atom example, all codes can be found in the folder `examples`.
 
 ---
 #### The hydrogen-like atom in 1D
