@@ -21,61 +21,6 @@ Analytical expressions for 2D and 1D can be achieved by dropping $\\, z $- or $\
 
 Because it is tedious to implement, `pyalchemy` already provides these kernels. It does not provide any electron densities, or functions for numerical integration. Both must be handled with other libraries.
 
-## Documentation
-
-#### `kernel_1D(partial_v_A, partial_v_B, x, orders = [1,2,3], verbose = False)`
-
-Parameters:
-- `partial_v_A` (_callable_) : a function of the initial system's external potential in 1D. It expects two arguments, $\\, n_x $ and $\\, x $, such that `partial_v_A(n_x, x)` $= \frac{\partial^{n_x} }{\partial x^{n_x}} v_A(x) $
-- `partial_v_B` (_callable_) : a function of the final system's external potential in 1D. It expects two arguments, $\\, n_x $ and $\\, x $, such that `partial_v_B(n_x, x)` $= \frac{\partial^{n_x} }{\partial x^{n_x}} v_B(x) $
-- `x` (_float_): coordinate
-- `orders` (_list_, _optional_) : a list of the orders $\\, p $ in the kernel to be summed over. Recommended are at least `[1,2,3]`, precise is `[1,2,3,4,5]`. $\\, p $ is implemented up to and including 9-th order which is ridiculous overkill.
-- `verbose` (_bool_, _optional_) : when `True`, prints a warning if the naive convergence criterion $\\, |1 - v_B(x)/v_A(x)| < 1 $ is violated. This does not imply divergence of the series but may hint towards too large differences between initial and final system.
-
-Returns:
-- `kernel_1D` (_float_) : the 1D kernel of AIT between systems $\\, A $ and $\\, B $ at $\\, x $ for all orders in `orders`.
-
----
-#### `kernel_2D(partial_v_A, partial_v_B, x,y, orders = [1,2,3], verbose = False)`
-
-Parameters:
-- `partial_v_A` (_callable_) : a function of the initial system's external potential in 2D. It expects four arguments, $\\, n_x, n_y $ and $\\, x, y $, such that `partial_v_A(n_x, n_y, x, y)` $= \frac{\partial^{n_x + n_y} }{\partial x^{n_x} \partial y^{n_y} } v_A(x,y) $
-- `partial_v_B` (_callable_) : a function of the final system's external potential in 2D. It expects four arguments, $\\, n_x, n_y $ and $\\, x, y $, such that `partial_v_B(n_x, n_y, x, y)` $= \frac{\partial^{n_x + n_y} }{\partial x^{n_x} \partial y^{n_y} } v_B(x,y) $
-- `x, y` (_float_): coordinates
-- `orders` (_list_, _optional_) : a list of the orders $\\, p $ in the kernel to be summed over. Recommended are at least `[1,2,3]`, precise is `[1,2,3,4,5]`. $\\, p $ is implemented up to and including 9-th order which is ridiculous overkill.
-- `verbose` (_bool_, _optional_) : when `True`, prints a warning if the naive convergence criterion $\\, |1 - v_B(x,y)/v_A(x,y)| < 1 $ is violated. This does not imply divergence of the series but may hint towards too large differences between initial and final system.
-
-Returns:
-- `kernel_2D` (_float_) : the 2D kernel of AIT between systems $\\, A $ and $\\, B $ at $\\, x, y $ for all orders in `orders`.
-
----
-#### `kernel_3D(partial_v_A, partial_v_B, x,y,z, orders = [1,2,3], verbose = False)`
-
-Parameters:
-- `partial_v_A` (_callable_) : a function of the initial system's external potential in 3D. It expects six arguments, $\\, n_x, n_y, n_z $ and $\\, x, y, z $, such that `partial_v_A(n_x, n_y, n_z, x, y, z)` $= \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_A(x,y,z) $
-- `partial_v_B` (_callable_) : a function of the final system's external potential in 3D. It expects six arguments, $\\, n_x, n_y, n_z $ and $\\, x, y, z $, such that `partial_v_B(n_x, n_y, n_z, x, y, z)` $= \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_B(x,y,z) $
-- `x, y, z` (_float_): coordinates
-- `orders` (_list_, _optional_) : a list of the orders $\\, p $ in the kernel to be summed over. Recommended are at least `[1,2,3]`, precise is `[1,2,3,4,5]`. $\\, p $ is implemented up to and including 9-th order which is ridiculous overkill.
-- `verbose` (_bool_, _optional_) : when `True`, prints a warning if the naive convergence criterion $\\, |1 - v_B(x,y,z)/v_A(x,y,z)| < 1 $ is violated. This does not imply divergence of the series but may hint towards too large differences between initial and final system.
-
-Returns:
-- `kernel_3D` (_float_) : the 3D kernel of AIT between systems $\\, A $ and $\\, B $ at $\\, x, y, z $ for all orders in `orders`.
-
----
-#### `partial_v_mol_3D(mole, n_x, n_y, n_z, x, y, z, nuc_rad = 0)`
-A built-in function for the external potential in 3D of a given molecule and its spatial derivatives. These derivatives are analytical up to and including third order $\\, n_x+n_y+n_z \leq 3$, and defined recursively via finite differences for higher orders.
-
-Parameters:
-- `mole` (_list_ of _list_) : a list of lists of the 4D coordinates (nuclear charge $\\, Z $, coordinates $\\, x, y, z $) of all atoms, i.e. `[[Z1, x1, y1, z1], [Z2, x2, y2, z2], ...]`
-- `n_x, n_y, n_z` (_int_) : order of the derivative
-- `x, y, z` (_float_): coordinates
-- `nuc_rad` (_float_, _optional_) : an optional nuclear radius $\\, \eta $, such that the Coulomb potential is rendered finite everywhere: $\\, -Z_1 [(x - x_1)^2 + (y - y_1)^2 + (z - z_1)^2]^{-1/2} \rightarrow -Z_1 [(x - x_1)^2 + (y - y_1)^2 + (z - z_1)^2 + \eta^2]^{-1/2} $
-
-Returns:
-- the $\\, n_x,n_y, n_z$-th derivative of the external potential of `mole` with nuclear radius `nuc_rad` at $\\, x,y,z $, i.e. $\\, \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_{\text{mole}}(x,y,z) $
-
----
-
 ## Examples, tricks and functionality
 The following examples are descirbed in the SI of the [paper](https://arxiv.org/abs/2203.13794). Except for the periodic systems and complemented by a multi-electron atom example, all codes can be found in the folder `examples`.
 
@@ -131,7 +76,7 @@ with energy eigenvalue
 
 $$ E_n = \sqrt{2D} \\, a \left(n+\frac{1}{2}\right)  \left(1 - \frac{a}{2\sqrt{2D}}\left(n+\frac{1}{2}\right) \right) - D $$
 
-and wave function 
+and wave function
 
 $$ \Psi_n (x) = N(z,n) \sqrt{a} \\, \xi^{z-n-1/2} e^{-\xi/2} L^{(2z-2n-1)}_n (\xi) $$
 
@@ -155,4 +100,3 @@ $$ \Delta E^{\text{cell}}\_{BA} =  \\,\int_{\Omega^n} d\vec{r}\\, \rho_A \left( 
 This gives the energy difference between two periodic systems per cell.
 
 ---
- 

@@ -1,9 +1,13 @@
 """
-Used Hartree atomic units throughout!!!
+A library which provides implementations of the kernel of the
+Alchemical Integral Transform (AIT) in 1D, 2D, 3D.
+
+Throughout this code, Hartree atomic units are used.
+
 """
 
 # Regulator for numerically instable fractions like v_B/v_A
-reg = 1e-8
+_reg = 1e-8
 
 # factorial function
 def _fc(n):
@@ -19,75 +23,97 @@ def _bn(n,k):
 # Built-in function for 3D potentials of molecules
 def partial_v_mol_3D(mole, n_x, n_y, n_z, x, y, z, nuc_rad = 0):
     """
-    External potential of a molecule mole = [[Z, R_x, R_y, R_z], [..., ..., ..., ...], ...]
-    and its derivaitves of n_x-th, n_y-th, n_z-th order in x-,y-,z-direction, respectively,
-    at the point x,y,z with possible nuclear radius nuc_rad
+    A function for the external potential in 3D of a given molecule and its spatial derivatives.
+    These derivatives are analytical up to and including third order :math:`n_x+n_y+n_z \leq 3`,
+    and defined recursively via finite differences for higher orders.
+
+    Parameters
+    ----------
+    mole : (..., 4) array
+        A list of lists of the 4D coordinates (nuclear charge Z_i, coordinates x_i, y_i, z_i of all atoms,
+        i.e. `mole = [[Z_1, x_1, y_1, z_1], [Z_2, x_2, y_2, z_2], ...]`
+    n_x, n_y, n_z : int
+        Order of the derivative
+    x, y, z : float
+        coordinates
+    nuc_rad : float, optional
+        An optional nuclear radius :math:`\eta` such that the Coulomb potential is rendered finite everywhere:
+        .. math:: -Z_i [(x - x_i)^2 + (y - y_i)^2 + (z - z_i)^2]^{-1/2} \rightarrow -Z_i [(x - x_i)^2 + (y - y_i)^2 + (z - z_i)^2 + \eta^2]^{-1/2}
+
+    Returns
+    -------
+    float
+        the :math:`n_x+n_y+n_z`-th derivative of the external potential of `mole`
+        with nuclear radius `nuc_rad` at `x,y,z`,
+         i.e. :math:`\frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_{\text{mole}}(x,y,z)`
+
+         
     """
     sum = 0
     #-----------------------------0-th derivatives------------------------------
     if n_x == 0 and n_y == 0 and n_z == 0:
         for i in range(len(mole)):
-            sum += -mole[i][0]/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(1/2) + reg)
+            sum += -mole[i][0]/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(1/2) + _reg)
     #-----------------------------1-st derivatives------------------------------
     elif n_x == 1 and n_y == 0 and n_z == 0:
         for i in range(len(mole)):
-            sum += mole[i][0]*(x-mole[i][1])/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(3/2) + reg)
+            sum += mole[i][0]*(x-mole[i][1])/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(3/2) + _reg)
     elif n_x == 0 and n_y == 1 and n_z == 0:
         for i in range(len(mole)):
-            sum += mole[i][0]*(y-mole[i][2])/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(3/2) + reg)
+            sum += mole[i][0]*(y-mole[i][2])/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(3/2) + _reg)
     elif n_x == 0 and n_y == 0 and n_z == 1:
         for i in range(len(mole)):
-            sum += mole[i][0]*(z-mole[i][3])/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(3/2) + reg)
+            sum += mole[i][0]*(z-mole[i][3])/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(3/2) + _reg)
     #-----------------------------2-nd derivatives------------------------------
     elif n_x == 2 and n_y == 0 and n_z == 0:
         for i in range(len(mole)):
-            sum += mole[i][0]*(-2*(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(5/2) + reg)
+            sum += mole[i][0]*(-2*(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(5/2) + _reg)
     elif n_x == 0 and n_y == 2 and n_z == 0:
         for i in range(len(mole)):
-            sum += mole[i][0]*(-2*(y-mole[i][2])**2+(x-mole[i][1])**2+(z-mole[i][3])**2)/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(5/2) + reg)
+            sum += mole[i][0]*(-2*(y-mole[i][2])**2+(x-mole[i][1])**2+(z-mole[i][3])**2)/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(5/2) + _reg)
     elif n_x == 0 and n_y == 0 and n_z == 2:
         for i in range(len(mole)):
-            sum += mole[i][0]*(-2*(z-mole[i][3])**2+(x-mole[i][1])**2+(y-mole[i][2])**2)/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(5/2) + reg)
+            sum += mole[i][0]*(-2*(z-mole[i][3])**2+(x-mole[i][1])**2+(y-mole[i][2])**2)/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(5/2) + _reg)
     elif n_x == 1 and n_y == 1 and n_z == 0:
         for i in range(len(mole)):
-            sum += -3*mole[i][0]*(x-mole[i][1])*(y-mole[i][2])/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(5/2) + reg)
+            sum += -3*mole[i][0]*(x-mole[i][1])*(y-mole[i][2])/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(5/2) + _reg)
     elif n_x == 1 and n_y == 0 and n_z == 1:
         for i in range(len(mole)):
-            sum += -3*mole[i][0]*(x-mole[i][1])*(z-mole[i][3])/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(5/2) + reg)
+            sum += -3*mole[i][0]*(x-mole[i][1])*(z-mole[i][3])/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(5/2) + _reg)
     elif n_x == 0 and n_y == 1 and n_z == 1:
         for i in range(len(mole)):
-            sum += -3*mole[i][0]*(y-mole[i][2])*(z-mole[i][3])/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(5/2) + reg)
+            sum += -3*mole[i][0]*(y-mole[i][2])*(z-mole[i][3])/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(5/2) + _reg)
     #-----------------------------3-rd derivatives------------------------------
     elif n_x == 3 and n_y == 0 and n_z == 0:
         for i in range(len(mole)):
-            sum += mole[i][0]*6*((x-mole[i][1])**3 - (x-mole[i][1])*(y-mole[i][2])**2 - (x-mole[i][1])*(z-mole[i][3])**2)/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + reg)
+            sum += mole[i][0]*6*((x-mole[i][1])**3 - (x-mole[i][1])*(y-mole[i][2])**2 - (x-mole[i][1])*(z-mole[i][3])**2)/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + _reg)
     elif n_x == 0 and n_y == 3 and n_z == 0:
         for i in range(len(mole)):
-            sum += mole[i][0]*6*((y-mole[i][2])**3 - (y-mole[i][2])*(x-mole[i][1])**2 - (y-mole[i][2])*(z-mole[i][3])**2)/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + reg)
+            sum += mole[i][0]*6*((y-mole[i][2])**3 - (y-mole[i][2])*(x-mole[i][1])**2 - (y-mole[i][2])*(z-mole[i][3])**2)/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + _reg)
     elif n_x == 0 and n_y == 0 and n_z == 3:
         for i in range(len(mole)):
-            sum += mole[i][0]*6*((z-mole[i][3])**3 - (z-mole[i][3])*(x-mole[i][1])**2 - (z-mole[i][3])*(y-mole[i][2])**2)/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + reg)
+            sum += mole[i][0]*6*((z-mole[i][3])**3 - (z-mole[i][3])*(x-mole[i][1])**2 - (z-mole[i][3])*(y-mole[i][2])**2)/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + _reg)
     elif n_x == 2 and n_y == 1 and n_z == 0:
         for i in range(len(mole)):
-            sum += -mole[i][0]*3*(y - mole[i][2])*( (-4)*(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2 )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + reg)
+            sum += -mole[i][0]*3*(y - mole[i][2])*( (-4)*(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2 )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + _reg)
     elif n_x == 2 and n_y == 0 and n_z == 1:
         for i in range(len(mole)):
-            sum += -mole[i][0]*3*(z - mole[i][3])*( (-4)*(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2 )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + reg)
+            sum += -mole[i][0]*3*(z - mole[i][3])*( (-4)*(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2 )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + _reg)
     elif n_x == 1 and n_y == 2 and n_z == 0:
         for i in range(len(mole)):
-            sum += -mole[i][0]*3*(x - mole[i][1])*( (x-mole[i][1])**2+(-4)*(y-mole[i][2])**2+(z-mole[i][3])**2 )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + reg)
+            sum += -mole[i][0]*3*(x - mole[i][1])*( (x-mole[i][1])**2+(-4)*(y-mole[i][2])**2+(z-mole[i][3])**2 )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + _reg)
     elif n_x == 0 and n_y == 2 and n_z == 1:
         for i in range(len(mole)):
-            sum += -mole[i][0]*3*(z - mole[i][3])*( (x-mole[i][1])**2+(-4)*(y-mole[i][2])**2+(z-mole[i][3])**2 )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + reg)
+            sum += -mole[i][0]*3*(z - mole[i][3])*( (x-mole[i][1])**2+(-4)*(y-mole[i][2])**2+(z-mole[i][3])**2 )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + _reg)
     elif n_x == 1 and n_y == 0 and n_z == 2:
         for i in range(len(mole)):
-            sum += -mole[i][0]*3*(x - mole[i][1])*( (x-mole[i][1])**2+(y-mole[i][2])**2+(-4)*(z-mole[i][3])**2 )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + reg)
+            sum += -mole[i][0]*3*(x - mole[i][1])*( (x-mole[i][1])**2+(y-mole[i][2])**2+(-4)*(z-mole[i][3])**2 )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + _reg)
     elif n_x == 0 and n_y == 1 and n_z == 2:
         for i in range(len(mole)):
-            sum += -mole[i][0]*3*(y - mole[i][2])*( (x-mole[i][1])**2+(y-mole[i][2])**2+(-4)*(z-mole[i][3])**2 )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + reg)
+            sum += -mole[i][0]*3*(y - mole[i][2])*( (x-mole[i][1])**2+(y-mole[i][2])**2+(-4)*(z-mole[i][3])**2 )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + _reg)
     elif n_x == 1 and n_y == 1 and n_z == 1:
         for i in range(len(mole)):
-            sum += mole[i][0]*15*( (x-mole[i][1])*(y-mole[i][2])*(z-mole[i][3]) )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + reg)
+            sum += mole[i][0]*15*( (x-mole[i][1])*(y-mole[i][2])*(z-mole[i][3]) )/((nuc_rad**2+(x-mole[i][1])**2+(y-mole[i][2])**2+(z-mole[i][3])**2)**(7/2) + _reg)
     #---------------------------higher derivatives------------------------------
     elif n_x + n_y + n_z > 3:
         h = 0.01
@@ -208,7 +234,7 @@ def _single_kernel_1D(p, partial_v_A, partial_v_B, x, verbose = False):
                 k_i = Dio[index][1+i]
                 product_i /= _fc(k_i)
             final_sum += deriv*product_i
-        ratio = (partial_v_B(0,x) - reg)/(partial_v_A(0,x) - reg)
+        ratio = (partial_v_B(0,x) - _reg)/(partial_v_A(0,x) - _reg)
         if verbose:
             if abs(ratio) >= 1:
                 print('Warning: naive convergence criterion | 1 - v_B/v_A | < 1 violated at point ' + str(x) + ' !')
@@ -237,7 +263,7 @@ def _single_kernel_2D(p, partial_v_A, partial_v_B, x,y, verbose = False):
                 k_i = Dio[index][2+i]
                 product_i /= _fc(k_i)
             final_sum += deriv*product_i
-        ratio = (partial_v_B(0,0,x,y) - reg)/(partial_v_A(0,0,x,y) - reg)
+        ratio = (partial_v_B(0,0,x,y) - _reg)/(partial_v_A(0,0,x,y) - _reg)
         if verbose:
             if abs(ratio) >= 1:
                 print('Warning: naive convergence criterion | 1 - v_B/v_A | < 1 violated at point (' + str(x) + ', ' + str(y) + ') !')
@@ -267,7 +293,7 @@ def _single_kernel_3D(p, partial_v_A, partial_v_B, x,y,z, verbose = False):
                 k_i = Dio[index][3+i]
                 product_i /= _fc(k_i)
             final_sum += deriv*product_i
-        ratio = (partial_v_B(0,0,0,x,y,z) - reg)/(partial_v_A(0,0,0,x,y,z) - reg)
+        ratio = (partial_v_B(0,0,0,x,y,z) - _reg)/(partial_v_A(0,0,0,x,y,z) - _reg)
         if verbose:
             if abs(ratio) >= 1:
                 print('Warning: naive convergence criterion | 1 - v_B/v_A | < 1 violated at point (' + str(x) + ', ' + str(y) + str(z) + ') !')
@@ -279,6 +305,36 @@ def _single_kernel_3D(p, partial_v_A, partial_v_B, x,y,z, verbose = False):
 # Calculate the kernel expression and summing over all p in orders.
 # ------------------------------------------------------------------------------
 def kernel_1D(partial_v_A, partial_v_B, x, orders = [1,2,3], verbose = False):
+    """
+    1D kernel of the Alchemical Integral Transform
+
+    Parameters
+    ----------
+    partial_v_A : callable
+        A function of the initial system's external potential in 1D. It expects two arguments,
+        `n_x` and `x`, such that `partial_v_A(n_x, x)`
+        :math:`= \frac{\partial^{n_x} }{\partial x^{n_x}} v_A(x)`
+    partial_v_B : callable
+        A function of the final system's external potential in 1D. It expects two arguments,
+        `n_x` and `x`, such that `partial_v_B(n_x, x)`
+        :math:`= \frac{\partial^{n_x} }{\partial x^{n_x}} v_B(x)`
+    x : float
+        coordinate
+    orders : list, optional
+        A list of the orders :math:`p` in the kernel to be summed over. Recommended are at least `[1,2,3]`,
+        precise is `[1,2,3,4,5]`. :math:`p` is implemented up to and including 9-th order
+    verbose : bool, optional
+        When `True`, prints a warning if the naive convergence criterion :math:`|1 - v_B(x)/v_A(x)| < 1` is violated.
+        This does not imply divergence of the series but may hint towards
+        too large differences between initial and final system.
+
+    Returns
+    ----------
+    float
+        The 1D kernel of AIT between systems A and B at `x` for all orders in `orders`.
+
+
+    """
     if len(orders) == 0:
         print('Warning: No orders defined!')
         return 0
@@ -292,6 +348,36 @@ def kernel_1D(partial_v_A, partial_v_B, x, orders = [1,2,3], verbose = False):
 
 
 def kernel_2D(partial_v_A, partial_v_B, x,y, orders = [1,2,3], verbose = False):
+    """
+    2D kernel of the Alchemical Integral Transform
+
+    Parameters
+    ----------
+    partial_v_A : callable
+        A function of the initial system's external potential in 2D. It expects four arguments,
+        `n_x, n_y` and `x, y`, such that `partial_v_A(n_x, n_y, x, y)`
+        :math:`= \frac{\partial^{n_x + n_y} }{\partial x^{n_x} \partial y^{n_y} } v_A(x,y) `
+    partial_v_B : callable
+        A function of the final system's external potential in 2D. It expects four arguments,
+        `n_x, n_y` and `x, y`, such that `partial_v_B(n_x, n_y, x, y)`
+        :math:`= \frac{\partial^{n_x + n_y} }{\partial x^{n_x} \partial y^{n_y} } v_B(x,y) `
+    x, y : float
+        coordinates
+    orders : list, optional
+        A list of the orders :math:`p` in the kernel to be summed over. Recommended are at least `[1,2,3]`,
+        precise is `[1,2,3,4,5]`. :math:`p` is implemented up to and including 9-th order
+    verbose : bool, optional
+        When `True`, prints a warning if the naive convergence criterion :math:`|1 - v_B(x,y)/v_A(x,y)| < 1` is violated.
+        This does not imply divergence of the series but may hint towards
+        too large differences between initial and final system.
+
+    Returns
+    ----------
+    float
+        The 2D kernel of AIT between systems A and B at `x, y` for all orders in `orders`.
+
+
+    """
     if len(orders) == 0:
         print('Warning: No orders defined!')
         return 0
@@ -305,6 +391,36 @@ def kernel_2D(partial_v_A, partial_v_B, x,y, orders = [1,2,3], verbose = False):
 
 
 def kernel_3D(partial_v_A, partial_v_B, x,y,z, orders = [1,2,3], verbose = False):
+    """
+    3D kernel of the Alchemical Integral Transform
+
+    Parameters
+    ----------
+    partial_v_A : callable
+        A function of the initial system's external potential in 3D. It expects six arguments,
+        `n_x, n_y, n_z` and `x, y, z`, such that `partial_v_A(n_x, n_y, n_z, x, y, z)`
+        :math:`= \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_z} \partial y^{n_z} } v_A(x,y,z) `
+    partial_v_B : callable
+        A function of the final system's external potential in 3D. It expects six arguments,
+        `n_x, n_y, n_z` and `x, y, z`, such that `partial_v_B(n_x, n_y, n_z, x, y, z)`
+        :math:`= \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_z} \partial y^{n_z} } v_B(x,y,z) `
+    x, y, z : float
+        coordinates
+    orders : list, optional
+        A list of the orders :math:`p` in the kernel to be summed over. Recommended are at least `[1,2,3]`,
+        precise is `[1,2,3,4,5]`. :math:`p` is implemented up to and including 9-th order
+    verbose : bool, optional
+        When `True`, prints a warning if the naive convergence criterion :math:`|1 - v_B(x,y,z)/v_A(x,y,z)| < 1` is violated.
+        This does not imply divergence of the series but may hint towards
+        too large differences between initial and final system.
+
+    Returns
+    ----------
+    float
+        The 3D kernel of AIT between systems A and B at `x, y, z` for all orders in `orders`.
+
+
+    """
     if len(orders) == 0:
         print('Warning: No orders defined!')
         return 0
