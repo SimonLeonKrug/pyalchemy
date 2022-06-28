@@ -29,7 +29,7 @@ The following examples are descirbed in the SI of the [paper](https://arxiv.org/
 ---
 #### The hydrogen-like atom in 1D
 
-Consider the (purely radial) potential of the hydrogen-like atom:
+Consider the (purely radial) potential of the [hydrogen-like atom](https://books.google.at/books?id=BT5RAAAAMAAJ):
 
 $$ v(r) = -\frac{Z}{r}$$
 
