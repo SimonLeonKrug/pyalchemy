@@ -54,7 +54,7 @@ for i in range(1,86+1):
     except:
         pass
 
-#Monkey patching PySCF's qmmm:
+#Monkey patching PySCF's qmmm
 def add_qmmm(calc, molecule, Z):
     mf_inter = qmmm.mm_charge(calc, molecule.atom_coords(), Z)
     def energy_nuc(self):
@@ -65,7 +65,7 @@ def add_qmmm(calc, molecule, Z):
     return mf_inter
 
 # Initialize the initial atom
-mol = gto.M(atom = str(Z_A)+' 0 0 0',
+mol = gto.M(atom = str(int(Z_A))+' 0 0 0',
             unit='Bohr',
             charge=initial_charge,
             spin=n_e%2,
@@ -76,7 +76,7 @@ mol = gto.M(atom = str(Z_A)+' 0 0 0',
 # Start an unrestricted Hartree-Fock calculation and stack the non-integer charges
 # on top of the nucleus
 mf = add_qmmm(scf.UHF(mol), mol, [Z_A - int(Z_A)])
-hf = mf.kernel()
+mf.kernel()
 
 # Get the density matrix
 dm = sum(mf.make_rdm1())
@@ -91,7 +91,7 @@ def Delta_E_SCF():
     energy_initial = mf.e_tot
     # Stack the difference in charges into the nucleus
     mf_final = add_qmmm(scf.UHF(mol), mol, [Z_B - int(Z_A)])
-    hf_final = mf_final.kernel()
+    mf_final.kernel()
     energy_final = mf_final.e_tot
     return energy_final - energy_initial
 
