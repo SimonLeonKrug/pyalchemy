@@ -1,8 +1,8 @@
 import numpy as np
 from pyalchemy import kernel_3D, partial_v_mol_3D
-from numba import prange
-from pyscf import gto, scf, qmmm, dft
-import basis_set_exchange as bse
+from numba import prange # To speed up the summation
+from pyscf import gto, scf, qmmm, dft # To get the electron density and energies
+import basis_set_exchange as bse # For easy access to different basis sets
 
 
 #----------------------------------Parameters-----------------------------------
@@ -64,7 +64,7 @@ def add_qmmm(calc, molecule, Z):
     mf_inter.energy_nuc = energy_nuc.__get__(mf_inter, mf_inter.__class__)
     return mf_inter
 
-# Initialize the atom
+# Initialize the initial atom
 mol = gto.M(atom = str(Z_A)+' 0 0 0',
             unit='Bohr',
             charge=initial_charge,
@@ -73,16 +73,15 @@ mol = gto.M(atom = str(Z_A)+' 0 0 0',
             verbose=0,
             basis = basis_specs)
 
-# Start a unrestricted Hartree-Fock calculation and stack the non-integer charges
+# Start an unrestricted Hartree-Fock calculation and stack the non-integer charges
 # on top of the nucleus
 mf = add_qmmm(scf.UHF(mol), mol, [Z_A - int(Z_A)])
 hf = mf.kernel()
 
 # Get the density matrix
-dm = mf.make_rdm1()
-dm = dm[0] + dm[1]
+dm = sum(mf.make_rdm1())
 
-# Wrap density in a callable
+# Wrap initial density in a callable
 def rho_initial(x,y,z):
     ao_value = dft.numint.eval_ao(mol, [[x,y,z]], deriv=0)
     return dft.numint.eval_rho(mol, ao_value, dm, xctype='LDA')[0]
@@ -107,7 +106,7 @@ grid.build()
 
 #--------------------------Alchemical Integral Transform------------------------
 
-# the true value from the analytical solution
+# the true value from the SCF solution
 print(Delta_E_SCF())
 
 # the predicted value from AIT
