@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyalchemy"
+version = "0.0.1"
+authors = [
+  { name="Simon León Krug", email="simonleon.krug@gmail.com" },
+]
+description = "Provide kernels of Alchemical Integral Transform"
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/SimonLeonKrug/pyalchemy"
+"Bug Tracker" = "https://github.com/SimonLeonKrug/pyalchemy/issues"

@@ -3,7 +3,7 @@ from pyalchemy import kernel_1D
 from scipy.integrate import quad
 
 
-#----------------------------------Parameters-----------------------------------
+# ---------------------------------Parameters-----------------------------------
 # excitation state
 n = 5
 
@@ -12,7 +12,7 @@ Z_A = 9
 Z_B = 6
 
 
-#--------------------------setup of the hydrogen-like atom----------------------
+# -------------------------setup of the hydrogen-like atom----------------------
 
 # Factorial function
 def fc(n):
@@ -54,7 +54,7 @@ def rho_initial(r):
     return sum([av_rho_0_l(Z_A, n, h, r) for h in range(0,n)])/(n**2)
 
 
-#--------------------------Alchemical Integral Transform------------------------
+# -------------------------Alchemical Integral Transform------------------------
 
 # Define an auxiliary integrand function
 def integrand(r):

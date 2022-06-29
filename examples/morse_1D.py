@@ -4,7 +4,7 @@ from scipy.integrate import quad
 from scipy.special import gamma
 
 
-#----------------------------------Parameters-----------------------------------
+# ---------------------------------Parameters-----------------------------------
 regulator = 100
 
 # excitation state
@@ -23,7 +23,7 @@ r_initial = 0
 r_final = -0.05
 
 
-#-----------------------------setup of Morse potential--------------------------
+# ----------------------------setup of Morse potential--------------------------
 
 # maximum excitation guard
 max_n = int(np.sqrt(2*D_initial)/a_initial-0.5)
@@ -66,7 +66,7 @@ def rho_initial(r):
     return N_squared*z_initial**(2*lambda_initial - 2*n - 1)*np.exp(-z_initial)*(L(n,2*lambda_initial-2*n-1,z_initial))**2*(a_initial)
 
 
-#--------------------------Alchemical Integral Transform------------------------
+# -------------------------Alchemical Integral Transform------------------------
 
 # Define an auxiliary integrand function
 def integrand(r):

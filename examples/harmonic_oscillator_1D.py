@@ -3,7 +3,7 @@ from pyalchemy import kernel_1D
 from scipy.integrate import quad
 
 
-#----------------------------------Parameters-----------------------------------
+# ---------------------------------Parameters-----------------------------------
 regulator = 25
 
 # excitation state
@@ -14,7 +14,7 @@ omega_A = 13
 omega_B = 12
 
 
-#---------------------setup of Quantum harmonic oscillator----------------------
+# --------------------setup of Quantum harmonic oscillator----------------------
 
 # Factorial function
 def fc(n):
@@ -62,7 +62,7 @@ def rho_initial(x):
     return (H(n,np.sqrt(omega_A)*x))**2*np.exp(-omega_A*x**2)*np.sqrt(omega_A/np.pi)/(2**n * fc(n))
 
 
-#--------------------------Alchemical Integral Transform------------------------
+# -------------------------Alchemical Integral Transform------------------------
 
 # Define an auxiliary integrand function
 def integrand(r):

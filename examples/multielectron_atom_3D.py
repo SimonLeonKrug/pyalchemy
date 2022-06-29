@@ -5,7 +5,7 @@ from pyscf import gto, scf, qmmm, dft # To get the electron density and energies
 import basis_set_exchange as bse # For easy access to different basis sets
 
 
-#----------------------------------Parameters-----------------------------------
+# ---------------------------------Parameters-----------------------------------
 
 # number of electrons
 n_e = 8 #must be an integer!
@@ -18,7 +18,7 @@ basis_set = 'def2-TZVP'
 reference_atom = 'Xe'
 
 
-#-------------------------------External potential------------------------------
+# ------------------------------External potential------------------------------
 
 # External potential of the initial system
 def partial_v_A(n_x, n_y, n_z, x, y, z):
@@ -29,7 +29,7 @@ def partial_v_B(n_x, n_y, n_z, x, y, z):
     return partial_v_mol_3D([[Z_B,0,0,0]], n_x, n_y, n_z, x, y, z)
 
 
-#---------------------------Multi-electron calculation--------------------------
+# --------------------------Multi-electron calculation--------------------------
 
 initial_charge = int(Z_A - n_e)
 
@@ -96,7 +96,7 @@ def Delta_E_SCF():
     return energy_final - energy_initial
 
 
-#-----------------------------Integration grid----------------------------------
+# ----------------------------Integration grid----------------------------------
 
 #Generate grid points and weights with Becke-Lebedev scheme
 grid = dft.gen_grid.Grids(mol)
@@ -104,7 +104,7 @@ grid.level = 3 # 3 suffices, 5 is precise
 grid.build()
 
 
-#--------------------------Alchemical Integral Transform------------------------
+# -------------------------Alchemical Integral Transform------------------------
 
 # the true value from the SCF solution
 print(Delta_E_SCF())

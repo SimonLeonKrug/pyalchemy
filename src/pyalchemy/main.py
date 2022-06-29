@@ -220,7 +220,7 @@ def _single_kernel_1D(p, partial_v_A, partial_v_B, x, verbose = False):
     of v_A to v_B
     """
     if p not in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
-        raise ValueError("p = "+str(p)+" is not supported!")
+        raise ValueError("p = " + str(p) + " is not supported!")
     if p == 1:
         return partial_v_B(0,x) - partial_v_A(0,x)
     else:
@@ -247,7 +247,7 @@ def _single_kernel_2D(p, partial_v_A, partial_v_B, x,y, verbose = False):
     of v_A to v_B
     """
     if p not in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
-        raise ValueError("p = "+str(p)+" is not supported!")
+        raise ValueError("p = " + str(p) + " is not supported!")
     if p == 1:
         return partial_v_B(0,0,x,y) - partial_v_A(0,0,x,y)
     else:
@@ -276,7 +276,7 @@ def _single_kernel_3D(p, partial_v_A, partial_v_B, x,y,z, verbose = False):
     of v_A to v_B
     """
     if p not in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
-        raise ValueError("p = "+str(p)+" is not supported!")
+        raise ValueError("p = " + str(p) + " is not supported!")
     if p == 1:
         return partial_v_B(0,0,0,x,y,z) - partial_v_A(0,0,0,x,y,z)
     else:

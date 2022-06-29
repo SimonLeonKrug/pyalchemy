@@ -35,7 +35,7 @@ $$ v(r) = -\frac{Z}{r}$$
 
 The eigenenergies are given by
 
-$$ E = -\frac{Z^2}{2n^2}$$
+$$ E_n = -\frac{Z^2}{2n^2}$$
 
 and the spherically-averaged electron density by
 
@@ -59,7 +59,7 @@ $$ E_n = \omega \\, (n+\frac{1}{2}) $$
 
 and density
 
-$$ \rho (x) = \frac{1}{2^n \\, n!} \sqrt{\frac{\omega}{\pi}} \exp \left(-\omega x^2 \right) \\, \left( H_n \left( \sqrt{\omega} x\right) \right)^2 $$
+$$ \rho (x,n,\omega) = \frac{1}{2^n \\, n!} \sqrt{\frac{\omega}{\pi}} \exp \left(-\omega x^2 \right) \\, \left( H_n \left( \sqrt{\omega} x\right) \right)^2 $$
 
 where $\\, H_n $ are the physicist's Hermite polynomials.
 
