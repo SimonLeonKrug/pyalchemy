@@ -3,11 +3,8 @@ A library which provides implementations of the kernel $\space\mathcal{K} $ of t
 
 Throughout this README and the code, [Hartree atomic units](https://en.wikipedia.org/wiki/Hartree_atomic_units) are used.
 
-The library's code can be found in `src/pyalchemy`.
+The library's documentation is not online yet but can be found in `docs`. Run `firefox docs/_build/html/index.html`.
 
-Any documentation is available as docstring as it only applies to the functions `kernel_1D`, `kernel_2D`, `kernel_3D` in `kernels` or `partial_v_mol_3D` in `potentials`.
-
-## Installation
 Available on [PyPI](https://pypi.org/project/pyalchemy/). Run `pip install pyalchemy`.
 
 ## Introduction
