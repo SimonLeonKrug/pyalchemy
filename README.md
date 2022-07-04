@@ -1,9 +1,11 @@
 # PyAlchemy
-A library which provides implementations of the kernel $\space\mathcal{K} $ of the Alchemical Integral Transform (AIT) in 1D, 2D, 3D.
+A library which provides implementations of the kernel $\space\mathcal{K} $ of the Alchemical Integral Transform (AIT) in 1D, 2D, 3D, and a function to provide the Coulombic potential and its derivatives in 3D.
 
 Throughout this README and the code, [Hartree atomic units](https://en.wikipedia.org/wiki/Hartree_atomic_units) are used.
 
-The library's code can be found in `src/pyalchemy/main.py`.
+The library's code can be found in `src/pyalchemy`.
+
+Any documentation is available as docstring as it only applies to the functions `kernel_1D`, `kernel_2D`, `kernel_3D` in `kernels` or `partial_v_mol_3D` in `potentials`.
 
 ## Installation
 Available on [PyPI](https://pypi.org/project/pyalchemy/). Run `pip install pyalchemy`.
