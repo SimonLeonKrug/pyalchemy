@@ -16,26 +16,23 @@ def partial_v_mol_3D(mole, n_x, n_y, n_z, x, y, z, nuc_rad = 0):
     These derivatives are analytical up to and including third order :math:`n_x+n_y+n_z \leq 3`,
     and defined recursively via finite differences for higher orders.
 
-    Parameters
-    ----------
-    mole : (..., 4) array
-        A list of lists of the 4D coordinates (nuclear charge Z_i, coordinates x_i, y_i, z_i of all atoms,
-        i.e. `mole = [[Z_1, x_1, y_1, z_1], [Z_2, x_2, y_2, z_2], ...]`
-    n_x, n_y, n_z : int
-        Order of the derivative
-    x, y, z : float
-        coordinates
-    nuc_rad : float, optional
-        An optional nuclear radius :math:`\eta` such that the Coulomb potential is rendered finite everywhere:
-        .. math:: -Z_i [(x - x_i)^2 + (y - y_i)^2 + (z - z_i)^2]^{-1/2} \rightarrow -Z_i [(x - x_i)^2 + (y - y_i)^2 + (z - z_i)^2 + \eta^2]^{-1/2}
+    Parameters:
+            mole : array of shape (..., 4)
+                A list of lists of the 4D coordinates (nuclear charge :math:`Z_i`, coordinates :math:`x_i, y_i, z_i` of all atoms,
+                i.e. ``mole = [[Z_1, x_1, y_1, z_1], [Z_2, x_2, y_2, z_2], ...]``
+            n_x, n_y, n_z : int
+                Order of the derivative
+            x, y, z : float
+                coordinates
+            nuc_rad : float, optional
+                An optional nuclear radius :math:`\eta` such that the Coulomb potential is rendered finite everywhere:
+                :math:`\\frac{-Z_i}{\\sqrt{(x - x_i)^2 + (y - y_i)^2 + (z - z_i)^2}} \\rightarrow \\frac{-Z_i}{\sqrt{(x - x_i)^2 + (y - y_i)^2 + (z - z_i)^2 + \eta^2}}`
 
-    Returns
-    -------
-    float
-        the :math:`n_x+n_y+n_z`-th derivative of the external potential of `mole`
-        with nuclear radius `nuc_rad` at `x,y,z`,
-         i.e. :math:`\frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_y} \partial z^{n_z} } v_{\text{mole}}(x,y,z)`
-
+    Returns:
+            float
+                the :math:`n_x+n_y+n_z`-th derivative of the external potential of ``mole``
+                with nuclear radius ``nuc_rad`` at ``x,y,z``,
+                i.e. :math:`\\frac{\\partial^{n_x + n_y + n_z} }{\\partial x^{n_x} \\partial y^{n_y} \\partial z^{n_z} } v_{\\text{mole}}(x,y,z)`
 
     """
     sum = 0

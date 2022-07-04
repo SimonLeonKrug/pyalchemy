@@ -200,30 +200,28 @@ def kernel_1D(partial_v_A, partial_v_B, x, orders = [1, 2, 3], verbose = False):
     """
     1D kernel of the Alchemical Integral Transform
 
-    Parameters
-    ----------
-    partial_v_A : callable
-        A function of the initial system's external potential in 1D. It expects two arguments,
-        `n_x` and `x`, such that `partial_v_A(n_x, x)`
-        :math:`= \frac{\partial^{n_x} }{\partial x^{n_x}} v_A(x)`
-    partial_v_B : callable
-        A function of the final system's external potential in 1D. It expects two arguments,
-        `n_x` and `x`, such that `partial_v_B(n_x, x)`
-        :math:`= \frac{\partial^{n_x} }{\partial x^{n_x}} v_B(x)`
-    x : float
-        coordinate
-    orders : list, optional
-        A list of the orders :math:`p` in the kernel to be summed over. Recommended are at least `[1,2,3]`,
-        precise is `[1,2,3,4,5]`. :math:`p` is implemented up to and including 9-th order
-    verbose : bool, optional
-        When `True`, prints a warning if the naive convergence criterion :math:`|1 - v_B(x)/v_A(x)| < 1` is violated.
-        This does not imply divergence of the series but may hint towards
-        too large differences between initial and final system.
+    Parameters:
+            partial_v_A : callable
+                A function of the initial system's external potential in 1D. It expects two arguments,
+                ``n_x`` and ``x``, such that ``partial_v_A(n_x, x)``
+                :math:`= \\frac{\\partial^{n_x} }{\\partial x^{n_x}} v_A(x)`
+            partial_v_B : callable
+                A function of the final system's external potential in 1D. It expects two arguments,
+                ``n_x`` and ``x``, such that ``partial_v_B(n_x, x)``
+                :math:`= \\frac{\\partial^{n_x} }{\\partial x^{n_x}} v_B(x)`
+            x : float
+                coordinate
+            orders : list, optional
+                A list of the orders :math:`p` in the kernel to be summed over. Recommended are at least ``[1,2,3]``,
+                precise is ``[1,2,3,4,5]``. :math:`p` is implemented up to and including 9-th order
+            verbose : bool, optional
+                If ``True``, prints a warning if the naive convergence criterion :math:`|1 - v_B(x)/v_A(x)| < 1` is violated.
+                This does not imply divergence of the series but may hint towards
+                too large differences between initial and final system.
 
-    Returns
-    -------
-    float
-        The 1D kernel of AIT between systems A and B at `x` for all orders in `orders`.
+    Returns:
+            float
+                The 1D kernel of AIT between systems A and B at ``x`` for all orders in ``orders``.
 
 
     """
@@ -243,30 +241,28 @@ def kernel_2D(partial_v_A, partial_v_B, x,y, orders = [1, 2, 3], verbose = False
     """
     2D kernel of the Alchemical Integral Transform
 
-    Parameters
-    ----------
-    partial_v_A : callable
-        A function of the initial system's external potential in 2D. It expects four arguments,
-        `n_x, n_y` and `x, y`, such that `partial_v_A(n_x, n_y, x, y)`
-        :math:`= \frac{\partial^{n_x + n_y} }{\partial x^{n_x} \partial y^{n_y} } v_A(x,y) `
-    partial_v_B : callable
-        A function of the final system's external potential in 2D. It expects four arguments,
-        `n_x, n_y` and `x, y`, such that `partial_v_B(n_x, n_y, x, y)`
-        :math:`= \frac{\partial^{n_x + n_y} }{\partial x^{n_x} \partial y^{n_y} } v_B(x,y) `
-    x, y : float
-        coordinates
-    orders : list, optional
-        A list of the orders :math:`p` in the kernel to be summed over. Recommended are at least `[1,2,3]`,
-        precise is `[1,2,3,4,5]`. :math:`p` is implemented up to and including 9-th order
-    verbose : bool, optional
-        When `True`, prints a warning if the naive convergence criterion :math:`|1 - v_B(x,y)/v_A(x,y)| < 1` is violated.
-        This does not imply divergence of the series but may hint towards
-        too large differences between initial and final system.
+    Parameters:
+            partial_v_A : callable
+                A function of the initial system's external potential in 2D. It expects four arguments,
+                ``n_x, n_y`` and ``x, y``, such that ``partial_v_A(n_x, n_y, x, y)``
+                :math:`= \\frac{\\partial^{n_x + n_y} }{\\partial x^{n_x} \\partial y^{n_y} } v_A(x,y)`
+            partial_v_B : callable
+                A function of the final system's external potential in 2D. It expects four arguments,
+                ``n_x, n_y`` and ``x, y``, such that ``partial_v_B(n_x, n_y, x, y)``
+                :math:`= \\frac{\\partial^{n_x + n_y} }{\\partial x^{n_x} \\partial y^{n_y} } v_B(x,y)`
+            x, y : float
+                coordinates
+            orders : list, optional
+                A list of the orders :math:`p` in the kernel to be summed over. Recommended are at least ``[1,2,3]``,
+                precise is ``[1,2,3,4,5]``. :math:`p` is implemented up to and including 9-th order
+            verbose : bool, optional
+                If ``True``, prints a warning if the naive convergence criterion :math:`|1 - v_B(x,y)/v_A(x,y)| < 1` is violated.
+                This does not imply divergence of the series but may hint towards
+                too large differences between initial and final system.
 
-    Returns
-    -------
-    float
-        The 2D kernel of AIT between systems A and B at `x, y` for all orders in `orders`.
+    Returns:
+            float
+                The 2D kernel of AIT between systems A and B at ``x, y`` for all orders in ``orders``.
 
 
     """
@@ -286,30 +282,28 @@ def kernel_3D(partial_v_A, partial_v_B, x,y,z, orders = [1, 2, 3], verbose = Fal
     """
     3D kernel of the Alchemical Integral Transform
 
-    Parameters
-    ----------
-    partial_v_A : callable
-        A function of the initial system's external potential in 3D. It expects six arguments,
-        `n_x, n_y, n_z` and `x, y, z`, such that `partial_v_A(n_x, n_y, n_z, x, y, z)`
-        :math:`= \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_z} \partial y^{n_z} } v_A(x,y,z) `
-    partial_v_B : callable
-        A function of the final system's external potential in 3D. It expects six arguments,
-        `n_x, n_y, n_z` and `x, y, z`, such that `partial_v_B(n_x, n_y, n_z, x, y, z)`
-        :math:`= \frac{\partial^{n_x + n_y + n_z} }{\partial x^{n_x} \partial y^{n_z} \partial y^{n_z} } v_B(x,y,z) `
-    x, y, z : float
-        coordinates
-    orders : list, optional
-        A list of the orders :math:`p` in the kernel to be summed over. Recommended are at least `[1,2,3]`,
-        precise is `[1,2,3,4,5]`. :math:`p` is implemented up to and including 9-th order
-    verbose : bool, optional
-        When `True`, prints a warning if the naive convergence criterion :math:`|1 - v_B(x,y,z)/v_A(x,y,z)| < 1` is violated.
-        This does not imply divergence of the series but may hint towards
-        too large differences between initial and final system.
+    Parameters:
+            partial_v_A : callable
+                A function of the initial system's external potential in 3D. It expects six arguments,
+                ``n_x, n_y, n_z`` and ``x, y, z``, such that ``partial_v_A(n_x, n_y, n_z, x, y, z)``
+                :math:`= \\frac{\\partial^{n_x + n_y + n_z} }{\\partial x^{n_x} \\partial y^{n_z} \\partial y^{n_z} } v_A(x,y,z)`
+            partial_v_B : callable
+                A function of the final system's external potential in 3D. It expects six arguments,
+                ``n_x, n_y, n_z`` and ``x, y, z``, such that ``partial_v_B(n_x, n_y, n_z, x, y, z)``
+                :math:`= \\frac{\\partial^{n_x + n_y + n_z} }{\\partial x^{n_x} \\partial y^{n_z} \\partial y^{n_z} } v_B(x,y,z)`
+            x, y, z : float
+                coordinates
+            orders : list, optional
+                A list of the orders :math:`p` in the kernel to be summed over. Recommended are at least ``[1,2,3]``,
+                precise is ``[1,2,3,4,5]``. :math:`p` is implemented up to and including 9-th order
+            verbose : bool, optional
+                If ``True``, prints a warning if the naive convergence criterion :math:`|1 - v_B(x,y,z)/v_A(x,y,z)| < 1` is violated.
+                This does not imply divergence of the series but may hint towards
+                too large differences between initial and final system.
 
-    Returns
-    -------
-    float
-        The 3D kernel of AIT between systems A and B at `x, y, z` for all orders in `orders`.
+    Returns:
+            float
+                The 3D kernel of AIT between systems A and B at ``x, y, z`` for all orders in ``orders``.
 
 
     """
