@@ -1,5 +1,5 @@
 import numpy as np
-from pyalchemy import kernel_1D
+from pyalchemy.kernels import kernel_1D
 from scipy.integrate import quad
 from scipy.special import gamma
 

@@ -1,5 +1,6 @@
 import numpy as np
-from pyalchemy import kernel_3D, partial_v_mol_3D
+from pyalchemy.kernels import kernel_3D
+from pyalchemy.potentials import partial_v_mol_3D
 from numba import prange # To speed up the summation
 from pyscf import gto, scf, qmmm, dft # To get the electron density and energies
 import basis_set_exchange as bse # For easy access to different basis sets
