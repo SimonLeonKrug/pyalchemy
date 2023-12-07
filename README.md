@@ -12,13 +12,13 @@ This repo includes two versions:
 
 ## Introduction
 
-Instead of calculating electronic energies of systems one at a time, this kernel provides a shortcut. By using an initial system's $A$ electron density $ \rho_A(\bm{r}) $, one can calculate the energy difference to any other system $B$ within the radius of convergence of AIT.
+Instead of calculating electronic energies of systems one at a time, this kernel provides a shortcut. By using an initial system's $A$ electron density $ \rho_A(\pmb{r}) $, one can calculate the energy difference to any other system $B$ within the radius of convergence of AIT.
 
 Consider the two system's $A$ and $B$ with their external potentials $v_A$ and $v_B$. Then their electronic energy difference is given by
 
-$ E_B - E_A = \int_{\mathbb{R}^n} d\bm{r}_A \, \, \rho_A \left( \bm{r}_A \right) \, \mathcal{K} \left[ v_A, v_B \right] \left( \bm{r}_A \right) $
+$ E_B - E_A = \int_{\mathbb{R}^n} d\pmb{r}_A \, \, \rho_A \left( \pmb{r}_A \right) \, \mathcal{K} \left[ v_A, v_B \right] \left( \pmb{r}_A \right) $
 
-In 1D, only initial and final potentials $v_A, v_B$ are needed. In $n$D, the parametrization $\bm{r}(\lambda)$ is necessary, too. $\bm{r}(\lambda)$ is a solution of $v_A(\bm{r}(\lambda)) = (v_B(\bm{r}_A) - v_A(\bm{r}_A)) \, \lambda - v_A(\bm{r}_A)$
+In 1D, only initial and final potentials $v_A, v_B$ are needed. In $n$D, the parametrization $\pmb{r}(\lambda)$ is necessary, too. $\pmb{r}(\lambda)$ is a solution of $v_A(\pmb{r}(\lambda)) = (v_B(\pmb{r}_A) - v_A(\pmb{r}_A)) \, \lambda - v_A(\pmb{r}_A)$
 
 Since this equation can be inverted uniquely for scalar functions (cf. [Lagrange inversion theorem](https://en.wikipedia.org/wiki/Lagrange_inversion_theorem)), no parametrization in the 1D case needs to be provided; the inversion of $v_A$ is handled internally.
 
@@ -277,12 +277,12 @@ System ''Hydrogen-like atom'' and its energy $E(n)$, $k$-th derivative of the ex
 
 **class** `pyalchemy.potentials.Coulomb_3D(mol)`
 
-Any Coulombic (multi-)atomic system in 3D with $N$ nuclei and its $\bm{k}$-th derivative of the external potential $v(\bm{x})$
+Any Coulombic (multi-)atomic system in 3D with $N$ nuclei and its $\pmb{k}$-th derivative of the external potential $v(\pmb{x})$
 
 **Parameters**
 
 - `mol` **: array of shape (N,4)**
-  $N$ 4-vectors of nuclear charge and 3D coordinates, , i.e. $\lbrace (Z_1, (\bm{R}_1)_1, (\bm{R}_1)_2, (\bm{R}_1)_3), \, \dots \rbrace$, e.g. N$_2$ = `[[7,0,0,0],[7,1.098/0.529,0,0]]`
+  $N$ 4-vectors of nuclear charge and 3D coordinates, , i.e. $\lbrace (Z_1, (\pmb{R}_1)_1, (\pmb{R}_1)_2, (\pmb{R}_1)_3), \, \dots \rbrace$, e.g. N$_2$ = `[[7,0,0,0],[7,1.098/0.529,0,0]]`
 
 **Attributes**
 
@@ -304,6 +304,6 @@ Any Coulombic (multi-)atomic system in 3D with $N$ nuclei and its $\bm{k}$-th de
   **Returns**
 
   - **float**
-    The external potential of the system at coordinate $\bm{x}$, $v(\bm{x}) = \sum_{i=1}^N \frac{-Z_i}{|| \bm{x} - \bm{R}_i ||_2}$, and its $\bm{k}$-th spatial derivative. All derivatives $|\bm{k}| < 4$ are defined analytically, all higher derivatives are computed recursively from the lower ones via central finite differences.
+    The external potential of the system at coordinate $\pmb{x}$, $v(\pmb{x}) = \sum_{i=1}^N \frac{-Z_i}{|| \pmb{x} - \pmb{R}_i ||_2}$, and its $\pmb{k}$-th spatial derivative. All derivatives $|\pmb{k}| < 4$ are defined analytically, all higher derivatives are computed recursively from the lower ones via central finite differences.
 
 ---
