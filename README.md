@@ -16,7 +16,7 @@ Instead of calculating electronic energies of systems one at a time, this kernel
 
 Consider the two system's $A$ and $B$ with their external potentials $v_A$ and $v_B$. Then their electronic energy difference is given by
 
-$ E_B - E_A = \int_{\mathbb{R}^n} d\pmb{r}_A \, \, \rho_A \left( \pmb{r}_A \right) \, \mathcal{K} \left[ v_A, v_B \right] \left( \pmb{r}_A \right) $
+$$ E_B - E_A = \int_{\mathbb{R}^n} d\pmb{r}_A \, \, \rho_A \left( \pmb{r}_A \right) \, \mathcal{K} \left[ v_A, v_B \right] \left( \pmb{r}_A \right) $$
 
 In 1D, only initial and final potentials $v_A, v_B$ are needed. In $n$D, the parametrization $\pmb{r}(\lambda)$ is necessary, too. $\pmb{r}(\lambda)$ is a solution of $v_A(\pmb{r}(\lambda)) = (v_B(\pmb{r}_A) - v_A(\pmb{r}_A)) \, \lambda - v_A(\pmb{r}_A)$
 
@@ -282,7 +282,7 @@ Any Coulombic (multi-)atomic system in 3D with $N$ nuclei and its $\pmb{k}$-th d
 **Parameters**
 
 - `mol` **: array of shape (N,4)**
-  $N$ 4-vectors of nuclear charge and 3D coordinates, , i.e. $\lbrace (Z_1, (\pmb{R}_1)_1, (\pmb{R}_1)_2, (\pmb{R}_1)_3), \, \dots \rbrace$, e.g. N$_2$ = `[[7,0,0,0],[7,1.098/0.529,0,0]]`
+  $N$ 4-vectors of nuclear charge and 3D coordinates, , i.e. $\lbrace (Z_1, (\pmb{R}_1)_1, (\pmb{R}_1)_2, (\pmb{R}_1)_3), \, \dots \rbrace$, e.g. $\text{N}_2$ = `[[7,0,0,0],[7,1.098/0.529,0,0]]`
 
 **Attributes**
 
@@ -304,6 +304,6 @@ Any Coulombic (multi-)atomic system in 3D with $N$ nuclei and its $\pmb{k}$-th d
   **Returns**
 
   - **float**
-    The external potential of the system at coordinate $\pmb{x}$, $v(\pmb{x}) = \sum_{i=1}^N \frac{-Z_i}{|| \pmb{x} - \pmb{R}_i ||_2}$, and its $\pmb{k}$-th spatial derivative. All derivatives $|\pmb{k}| < 4$ are defined analytically, all higher derivatives are computed recursively from the lower ones via central finite differences.
+    The external potential of the system at coordinate $\pmb{x}$, $v(\pmb{x}) = \sum^N_{i=1} \frac{-Z_i}{|| \pmb{x} - \pmb{R}_i ||_2}$, and its $\pmb{k}$-th spatial derivative. All derivatives $|\pmb{k}| < 4$ are defined analytically, all higher derivatives are computed recursively from the lower ones via central finite differences.
 
 ---
