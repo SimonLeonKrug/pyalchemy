@@ -18,7 +18,7 @@ Consider the two system's $A$ and $B$ with their external potentials $v_A$ and $
 
 $$ E_B - E_A = \int_{\mathbb{R}^n} d\pmb{r}_A \\, \rho_A \left( \pmb{r}_A \right) \\, \mathcal{K} \left[ v_A, v_B \right] \left( \pmb{r}_A \right) $$
 
-In 1D, only initial and final potentials $v_A, v_B$ are needed. In $n $D, the parametrization $\pmb{r}(\lambda)$ is necessary, too. $\pmb{r}(\lambda)$ is a solution of $v_A(\pmb{r}(\lambda)) = (v_B(\pmb{r}_A) - v_A(\pmb{r}_A)) \\, \lambda - v_A(\pmb{r}_A)$
+In 1D, only initial and final potentials $v_A, v_B$ are needed. In nD, the parametrization $\pmb{r}(\lambda)$ is necessary, too. $\pmb{r}(\lambda)$ is a solution of $v_A(\pmb{r}(\lambda)) = (v_B(\pmb{r}_A) - v_A(\pmb{r}_A)) \\, \lambda - v_A(\pmb{r}_A)$
 
 Since this equation can be inverted uniquely for scalar functions (cf. [Lagrange inversion theorem](https://en.wikipedia.org/wiki/Lagrange_inversion_theorem)), no parametrization in the 1D case needs to be provided; the inversion of $v_A$ is handled internally.
 
