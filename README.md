@@ -1,106 +1,309 @@
 # PyAlchemy
-A library which provides implementations of the kernel $\mathcal{K}$ of the Alchemical Integral Transform (AIT) in 1D, 2D, 3D, and a function to provide the Coulombic potential and its derivatives in 3D.
+
+A library which provides implementations of the kernel $\mathcal{K}$ of the Alchemical Integral Transform (AIT) for general potentials in 1D. An introduction to the concept, further explanations and details can be found in NEW PAPER.
 
 Throughout this README and the code, [Hartree atomic units](https://en.wikipedia.org/wiki/Hartree_atomic_units) are used.
 
-The library's documentation is not online yet but can be found in `docs`. Run `firefox docs/_build/html/index.html`.
+This repo includes two versions:
 
-Available on [PyPI](https://pypi.org/project/pyalchemy/). Run `pip install pyalchemy`.
+- pyalchemy 0.0.7 (old version) which also provides the code and the examples for the first [AIT paper](https://arxiv.org/abs/2203.13794). This version's documentation can be found in `docs`. Run `firefox pyalchemy0.0.7/docs/_build/html/index.html`. Note that in this version only monoatomic systems have been proven to produce correct results. These shortcomings have been discussed in the [follow-up paper](NEW PAPER)
+
+- The current version, pyalchemy 0.1.0, works for all systems as long as the expansion in $\mathcal{K}$ converges. It is available on [PyPI](https://pypi.org/project/pyalchemy/). Run `pip install pyalchemy`.
 
 ## Introduction
-Instead of calculating electronic energies of systems one at a time, this kernel provides a shortcut. By using an initial system's $(A)$ electron density $\rho_A(\vec{r})$, one can calculate the energy difference to any other system $(B)$ within the radius of convergence of AIT. A complete explanation and introduction of the concept can be found under https://arxiv.org/abs/2203.13794 .
+
+Instead of calculating electronic energies of systems one at a time, this kernel provides a shortcut. By using an initial system's $A$ electron density $ \rho_A(\bm{r}) $, one can calculate the energy difference to any other system $B$ within the radius of convergence of AIT.
 
 Consider the two system's $A$ and $B$ with their external potentials $v_A$ and $v_B$. Then their electronic energy difference is given by
 
-$$ E_B - E_A = \int_{\mathbb{R}^3} d\vec{r} \\, \rho_A \left( \vec{r} \right) \mathcal{K} \left( \vec{r}, v_A, v_B \right) $$
+$ E_B - E_A = \int_{\mathbb{R}^n} d\bm{r}_A \, \, \rho_A \left( \bm{r}_A \right) \, \mathcal{K} \left[ v_A, v_B \right] \left( \bm{r}_A \right) $
 
-with 3D-kernel
+In 1D, only initial and final potentials $v_A, v_B$ are needed. In $n$D, the parametrization $\bm{r}(\lambda)$ is necessary, too. $\bm{r}(\lambda)$ is a solution of $v_A(\bm{r}(\lambda)) = (v_B(\bm{r}_A) - v_A(\bm{r}_A)) \, \lambda - v_A(\bm{r}_A)$
 
-$$ \mathcal{K} \left( \vec{r}, v_A, v_B \right) = \sum_{p = 1}^{\infty} \frac{1}{p} \left(1 - \frac{v_B(\vec{r})}{v_A(\vec{r})} \right)^{p-1} \sum_{S_p} \frac{\partial^{\mu_x + \mu_y + \mu_z} v_B(\vec{r}) - v_A(\vec{r})}{\partial x^{\mu_x} \partial y^{\mu_y} \partial z^{\mu_z}}
-    \left[\prod_{i = 1}^{p-1} \frac{ \left( x + y + z \right)^{k_i}}{k_i!} \right]$$
+Since this equation can be inverted uniquely for scalar functions (cf. [Lagrange inversion theorem](https://en.wikipedia.org/wiki/Lagrange_inversion_theorem)), no parametrization in the 1D case needs to be provided; the inversion of $v_A$ is handled internally.
 
-$$S_p := \left\lbrace \mu_x, \mu_y, \mu_z, k_1, \dots, k_{p-1} \in \mathbb{N}\_{0}  \\, \Bigg\vert \\, p-1 = \sum_{i=1}^{p-1} i \cdot k_i , \\, \mu_x + \mu_y + \mu_z = \sum_{i=1}^{p-1} k_i\right\rbrace$$
+`pyalchemy` provides the kernel $\mathcal{K}$ of AIT, as well as potentials, energies and electron densities of select systems. It does not provide functions for numerical integration or methods of computational chemistry such as (post-)Hartree-Fock methods or Density Functional Theory.
 
-Analytical expressions for 2D and 1D can be achieved by dropping $\\, z $- or $\\, y,z $-dependencies and forcing $\\, \mu_z = 0$ or $\\, \mu_y = \mu_z = 0 $.
-
-Because it is tedious to implement, `pyalchemy` already provides these kernels. It does not provide any electron densities, or functions for numerical integration. Both must be handled with other libraries.
-
-## Examples, tricks and functionality
-The following examples are described in the SI of the [paper](https://arxiv.org/abs/2203.13794). Except for the periodic systems and complemented by a multi-electron atom example, all codes can be found in the folder `examples`.
+## Documentation
 
 ---
-#### The hydrogen-like atom in 1D
 
-Consider the (purely radial) potential of the [hydrogen-like atom](https://books.google.at/books?id=BT5RAAAAMAAJ):
-
-$$ v(r) = -\frac{Z}{r}$$
-
-The eigenenergies are given by
-
-$$ E_n = -\frac{Z^2}{2n^2}$$
-
-and the spherically-averaged electron density by
-
-$$ \bar{\rho} (r, n, Z) = \frac{1}{n^2} \sum_{l = 0}^{n-1} \frac{2l+1}{4\pi} \left( \frac{2Z}{n} \right)^3 \left( \frac{2Z r}{n} \right)^{2l} \left( L_{n-l-1}^{(2l+1)}\left( \frac{2Zr}{n}\right) \right)^2 \frac{(n-l-1)!}{2n (n+l)!} \exp{\left(- \frac{2Zr}{n}\right)} $$
-
-with generalized Laguerre polynomials $\\, L $. We neglected the change of the reduced mass $\\, \mu$ with increasing nuclear mass and chose $\\, \mu \approx m_e$, hence $\\, a_{\mu} \approx a_0 =1$ in atomic units.
-
-The radially-averaged hydrogen-like atom can be treated with the kernel in 1D, i.e. we find
-
-$$ \Delta E_{BA} = -\frac{Z_B^2 - Z_A^2}{2n^2} = \int\limits_{0}^{\infty} dr \\, 4\pi r^2 \bar{\rho}_A(r,n,Z_A) \\, \mathcal{K}\left(r, v_A, v_B \right) $$
+#### Kernels (`pyalchemy.kernels`)
 
 ---
-#### The quantum harmonic oscillator in 1D
 
-Consider the potential of the one-dimensional harmonic oscillator
+`pyalchemy.kernels.kernel_1D(v_A, v_B, x, max_order = 4)`
 
-$$v(x) = \frac{\omega^2}{2}x^2$$
+One-dimensional kernel of the Alchemical Integral Transform
 
-with eigenenergies
-$$E_n = \omega \\, (n+\frac{1}{2})$$
+**Parameters:**
 
-and density
+- `v_A` **: callable**
+  A scalar function of the initial system's external potential in 1D. It expects two arguments, `k` and `x` such that `v_A(k, x)` $=\frac{\partial^k}{\partial x^k} v_A(x)$
+- `v_B` **: callable**
+  A scalar function of the final system's external potential in 1D. It expects two arguments, `k` and `x` such that `v_B(k, x)` $=\frac{\partial^k}{\partial x^k} v_B(x)$
+- `x`**: float**
+  coordinate $x$
+- `max_order` **: int, optional**
+  Maximum order $p_{max}$ in the kernel to be summed over. Default is 4.
+  Caution! Increasing $p_{max}$ also increases the diverging contributions (if there are any) of the integral; higher $p_{max}$ does not necessarily mean higher accuracy!
 
-$$\rho (x,n,\omega) = \frac{1}{2^n \\, n!} \sqrt{\frac{\omega}{\pi}} \exp \left(-\omega x^2 \right) \\, \left( H_n \left( \sqrt{\omega} x\right) \right)^2$$
+**Returns:**
 
-where $\\, H_n$ are the physicist's Hermite polynomials.
-
-Using AIT to obtain the energy difference between two such systems A and B with frequencies $\\, \omega_A$ and $\\, \omega_B$ proves to be difficult numerically. These numerical difficulties come from the convergence behavior of the series in $\\, \mathcal{K}(x, v_B, v_A)$ and can be evaded by adding a regulatory energy constant $\\, \Lambda_{\text{reg}} \gg \Delta E_{BA}$ to initial and final potential. The energy difference between the systems $\\, \Delta E_{BA}$ and the density are unaffected by this but the convergence behavior of the kernel changes towards more favorable regimes.
-
-$$\Delta E_{BA} = (\omega_B - \omega_A) (n+\frac{1}{2}) = \int\limits_{-\infty}^{+\infty} dx \\, \rho_A(x) \\, \\, \mathcal{K} \left( x, v_A + \Lambda_{\text{reg}} , v_B + \Lambda_{\text{reg}} \right)$$
-
----
-#### The Morse potential in 1D
-
-Consider the one-dimensional [Morse potential](https://backend.orbit.dtu.dk/ws/portalfiles/portal/3620619/Dahl.pdf) centered around $\\, x_0$ with well depth $\\, D$ and range parameter $\\, a$:
-
-$$v(x) = D \\, \left( \exp (-2a (x - x_0)) - 2\exp (-a (x - x_0))\right)$$
-
-with energy eigenvalue
-
-$$E_n = \sqrt{2D} \\, a \left(n+\frac{1}{2}\right)  \left(1 - \frac{a}{2\sqrt{2D}}\left(n+\frac{1}{2}\right) \right) - D$$
-
-and wave function
-
-$$\Psi_n (x) = N(z,n) \sqrt{a} \\, \xi^{z-n-1/2} e^{-\xi/2} L^{(2z-2n-1)}_n (\xi)$$
-
-$$z = \frac{2D}{a}$$
-
-$$\xi = 2z\cdot e^{-a(x-x_0)}$$
-
-$$N(z,n) = \sqrt{\frac{(2z-2n-1) \\, \Gamma (n+1)}{\Gamma (2z-n)}}$$
-
-where $\\, L$ are the generalized Laguerre polynomials.
-
-Again, adding a regulatory constant $\\, \Lambda_{\text{reg}}$ to initial and final potential in the kernel enables us to obtain the energy difference $\\, \Delta E_{BA}$ between two systems $\\, A$ and $\\, B$ with small numerical error.
+- **float**
+  The 1D kernel of AIT between systems $A$ and $B$ at $x$ up to order $p_{max}$.
 
 ---
-#### Periodic systems in nD
 
-For AIT in periodic systems, one replaces any one-cell-potential by an effective one $\\, v^{\text{eff}}(\vec{r})$ and uses the borders of the cell $\\, \Omega^n$ as limits of integration:
+`pyalchemy.kernels.param(v_A, v_B, x, Lambda, max_order=4)`
 
-$$\Delta E^{\text{cell}}\_{BA} =  \\,\int_{\Omega^n} d\vec{r}\\, \rho_A \left( \vec{r} \right) \\, \\, \mathcal{K} \left( \vec{r}, v^{\text{eff}}_A, v^{\text{eff}}_B \right)$$
+One-dimensional parametrization $x(\lambda)$ between two systems $A$ and $B$ with external potentials $v_A$ and $v_B$.
 
-This gives the energy difference between two periodic systems per cell.
+**Parameters:**
+
+- `v_A` **: callable**
+  A scalar function of the initial system's external potential in 1D. It expects two arguments, `k` and `x` such that `v_A(k, x)` $=\frac{\partial^k}{\partial x^k} v_A(x)$
+- `v_B` **: callable**
+  A scalar function of the final system's external potential in 1D. It expects two arguments, `k` and `x` such that `v_B(k, x)` $=\frac{\partial^k}{\partial x^k} v_B(x)$
+- `x`**: float**
+  coordinate $x$
+- `Lambda` **: float**
+  Interpolation parameter $\lambda$, where $\lambda = 0$ corresponds to system $A$, $\lambda = 1$ corresponds to system $B$
+- `max_order` **: int, optional**
+  Maximum order $p_{max}$ after which the inverted series will be truncated
+
+**Returns:**
+
+- **float**
+  The 1D parametrization of AIT between systems $A$ and $B$ at $x$ up to order $p_{max}$.
+
+---
+
+#### Potentials (`pyalchemy.potentials`)
+
+---
+
+**class** `pyalchemy.potentials.QHO(omega)`
+
+System ''Quantum harmonic oscillator'' (QHO) and its energy $E(n)$, $k$-th derivative of the external potential $v(x)$ and electron density $\rho(n, x)$.
+
+**Parameters**
+
+- `omega` **: float**
+  Frequency $\omega$ of the QHO
+
+**Attributes**
+
+- `omega` **: float**
+  Frequency $\omega$ of the QHO
+
+**Methods**
+
+- `E(self, n)`
+
+  **Parameters**
+
+  - `n` **: int**
+    Number of the excited state, $n = \lbrace 0,1,2, \dots \rbrace$
+
+  **Returns**
+
+  - **float**
+    The $n$-th eigenenergy of the system, $E = (n + 1/2) \omega$
+
+- `v(self, k, x)`
+
+  **Parameters**
+
+  - `k` **: int**
+    Order of spatial derivative
+
+  - `x` **: float**
+    Coordinate
+
+  **Returns**
+
+  - **float**
+    The external potential of the system at coordinate $x$, $v(x) = \frac{\omega^2}{2} x^2$, and its $k$-th derivative
+
+- `rho(self, n, x)`
+
+  **Parameters**
+
+  - `n` **: int**
+    Number of the excited state, $n = \lbrace 0,1,2, \dots \rbrace$
+
+  - `x` **: float**
+    Coordinate
+
+  **Returns**
+
+  - **float**
+    The electron density $\rho$ of the $n$-th excited state of the system at coordinate $x$
+
+---
+
+**class** `pyalchemy.potentials.Morse(D, a, r_e)`
+
+System ''Morse potential'' and its energy $E(n)$, $k$-th derivative of the external potential $v(x)$ and electron density $\rho(n, x)$ as described [here](http://orbit.dtu.dk/files/3620619/Dahl.pdf).
+
+**Parameters**
+
+- `D` **: float**
+  The depth of the well
+
+- `a` **:float**
+  The width of the well
+
+- `r_e` **: float**
+  The equilibrium distance
+
+**Attributes**
+
+- `D` **: float**
+  The depth of the well
+
+- `a` **:float**
+  The width of the well
+
+- `r_e` **: float**
+  The equilibrium distance
+
+**Methods**
+
+- `E(self, n)`
+
+  **Parameters**
+
+  - `n` **: int**
+    Number of the excited state, $n = \lbrace 0,1,2, \dots, \lfloor \frac{\sqrt{2D}}{a} - \frac{1}{2} \rfloor \rbrace$
+
+  **Returns**
+
+  - **float**
+    The $n$-th eigenenergy of the system, $E = \frac{4D}{a^2}(n + 1/2) - (n + 1/2)^2$
+
+- `v(self, k, x)`
+
+  **Parameters**
+
+  - `k` **: int**
+    Order of spatial derivative
+
+  - `x` **: float**
+    Coordinate
+
+    **Returns**
+
+  - **float**
+    The external potential of the system at coordinate $x$ and its $k$-th derivative
+
+- `rho(self, n, x)`
+
+  **Parameters**
+
+  - `n` **: int**
+    Number of the excited state, $n = \lbrace 0,1,2, \dots, \lfloor \frac{\sqrt{2D}}{a} - \frac{1}{2} \rfloor \rbrace$
+
+  - `x` **: float**
+    Coordinate
+
+  **Returns**
+
+  - **float**
+    The electron density $\rho$ of the $n$-th excited state of the system at coordinate $x$
+
+---
+
+**class** `pyalchemy.potentials.hydlike(Z)`
+
+System ''Hydrogen-like atom'' and its energy $E(n)$, $k$-th derivative of the external potential $v(r)$ and electron density $\rho(n, r)$.
+
+**Parameters**
+
+- `Z` **: float**
+  Nuclear charge $Z$ of the atom
+
+**Attributes**
+
+- `Z` **: float**
+  Nuclear charge $Z$ of the atom
+
+**Methods**
+
+- `E(self, n)`
+
+  **Parameters**
+
+  - `n` **: int**
+    Number of the excited state, $n = \lbrace 0,1,2, \dots \rbrace$
+
+  **Returns**
+
+  - **float**
+    The $n$-th eigenenergy of the system, $E = -\frac{Z^2}{2n^2}$
+
+- `v(self, k, r)`
+
+  **Parameters**
+
+  - `k` **: int**
+    Order of spatial derivative
+
+  - `r` **: float**
+    radius, must be greater 0
+
+  **Returns**
+
+  - **float**
+    The $k$-th derivative of the external potential of the system at radius $r$, $\frac{\partial ^k}{\partial r^k} v(r) = -(-1)^k \, k! \, \frac{Z}{r^{k+1}}$
+
+- `rho(self, n, r)`
+
+  **Parameters**
+
+  - `n` **: int**
+    Number of the excited state, $n = \lbrace 0,1,2, \dots \rbrace$
+
+  - `r` **: float**
+    radius, must be greater 0
+
+  **Returns**
+
+  - **float**
+    The electron density $\rho$ of the $n$-th excited state of the system at radius $r$
+
+---
+
+**class** `pyalchemy.potentials.Coulomb_3D(mol)`
+
+Any Coulombic (multi-)atomic system in 3D with $N$ nuclei and its $\bm{k}$-th derivative of the external potential $v(\bm{x})$
+
+**Parameters**
+
+- `mol` **: array of shape (N,4)**
+  $N$ 4-vectors of nuclear charge and 3D coordinates, , i.e. $\lbrace (Z_1, (\bm{R}_1)_1, (\bm{R}_1)_2, (\bm{R}_1)_3), \, \dots \rbrace$, e.g. N$_2$ = `[[7,0,0,0],[7,1.098/0.529,0,0]]`
+
+**Attributes**
+
+- `mol` **: array of shape (N,4)**
+  $N$ 4-vectors of nuclear charge and 3D coordinates
+
+**Methods**
+
+- `v(self, k, x)`
+
+  **Parameters**
+
+  - `k` **: array of shape (3)**
+    Integer order of spatial derivatives
+
+  - `x` **: array of shape (3)**
+    Coordinate
+
+  **Returns**
+
+  - **float**
+    The external potential of the system at coordinate $\bm{x}$, $v(\bm{x}) = \sum_{i=1}^N \frac{-Z_i}{|| \bm{x} - \bm{R}_i ||_2}$, and its $\bm{k}$-th spatial derivative. All derivatives $|\bm{k}| < 4$ are defined analytically, all higher derivatives are computed recursively from the lower ones via central finite differences.
 
 ---
