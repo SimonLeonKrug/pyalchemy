@@ -1,12 +1,12 @@
 # PyAlchemy
 
-A library which provides implementations of the kernel $\mathcal{K}$ of the Alchemical Integral Transform (AIT) for general potentials in 1D. An introduction to the concept, further explanations and details can be found in NEW PAPER.
+A library which provides implementations of the kernel $\mathcal{K}$ of the Alchemical Integral Transform (AIT) for general potentials in 1D. An introduction to the concept, further explanations and details can be found under https://arxiv.org/abs/2312.04458.
 
 Throughout this README and the code, [Hartree atomic units](https://en.wikipedia.org/wiki/Hartree_atomic_units) are used.
 
 This repo includes two versions:
 
-- pyalchemy 0.0.7 (old version) which also provides the code and the examples for the first [AIT paper](https://arxiv.org/abs/2203.13794). A full collection is published on [Zenodo](https://zenodo.org/records/10288996), too. This version's documentation can be found in `docs`. Run `firefox pyalchemy0.0.7/docs/_build/html/index.html`. Note that in this version only monoatomic systems have been proven to produce correct results. A collection of all the code and the examples These shortcomings have been discussed in the [follow-up paper](NEW PAPER)
+- pyalchemy 0.0.7 (old version) which also provides the code and the examples for the first [AIT paper](https://arxiv.org/abs/2203.13794). A full collection is published on [Zenodo](https://zenodo.org/records/10288996), too. This version's documentation can be found in `docs`. Run `firefox pyalchemy0.0.7/docs/_build/html/index.html`. Note that in this version only monoatomic systems have been proven to produce correct results. A collection of all the code and the examples These shortcomings have been discussed in the [follow-up paper](https://arxiv.org/abs/2312.04458)
 
 - The current version, pyalchemy 0.1.0, works for all systems as long as the expansion in $\mathcal{K}$ converges. It is available on [PyPI](https://pypi.org/project/pyalchemy/). Run `pip install pyalchemy`.
 
