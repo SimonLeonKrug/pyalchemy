@@ -4,16 +4,8 @@ from scipy.integrate import romb
 import matplotlib.pyplot as plt
 plt.rcParams['text.usetex'] = True
 
-
-import sys
-sys.path.insert(0, '../src/pyalchemy/')
-
-
-from kernels import kernel_1D
-from potentials import QHO
-
-
-
+from pyalchemy.kernels import kernel_1D
+from pyalchemy.potentials import QHO
 
 # ----------------------------------Parameters----------------------------------
 # Use Hartree atomic units throughout!!!
@@ -94,5 +86,5 @@ ax2.set_ylabel(r'$\Delta \Delta E \,\, \textrm{ }[\textrm{Ha}]$', fontsize=fs)
 ax2.tick_params(axis='x', labelsize=fs)
 ax2.tick_params(axis='y', labelsize=fs)
 
-plt.savefig('QHO_proof_errors_romb.png',dpi = 300, bbox_inches='tight')
-#plt.show()
+#plt.savefig('QHO_proof_errors_romb.png',dpi = 300, bbox_inches='tight')
+plt.show()

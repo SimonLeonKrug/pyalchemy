@@ -4,16 +4,8 @@ from scipy.integrate import romb
 import matplotlib.pyplot as plt
 plt.rcParams['text.usetex'] = True
 
-
-import sys
-sys.path.insert(0, '../src/pyalchemy/')
-
-
-from kernels import kernel_1D
-from potentials import Morse
-
-
-
+from pyalchemy.kernels import kernel_1D
+from pyalchemy.potentials import Morse
 
 # ----------------------------------Parameters----------------------------------
 # Use Hartree atomic units throughout!!!
