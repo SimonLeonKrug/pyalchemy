@@ -2,21 +2,19 @@
 
 A library which provides implementations of the kernel of the Alchemical Integral Transform (AIT) for general potentials in nD. An introduction to the concept, further explanations and details can be found under https://arxiv.org/abs/2312.04458.
 
-Instead of calculating electronic energies of systems one at a time, this kernel provides a shortcut. By using an initial system's electron density, one can calculate the energy difference to any other system within the radius of convergence of AIT, if initial and final system are connected via an affine transformation.
-
 PyAlchemy uses [Hartree atomic units](https://en.wikipedia.org/wiki/Hartree_atomic_units).
 
 This repo includes three versions:
 
 - pyalchemy 0.0.7 which also provides the code and the examples for the first [AIT paper](https://arxiv.org/abs/2203.13794). A full collection is published on [Zenodo](https://zenodo.org/records/10288996), too. This version's documentation can be found in `docs`. Run `firefox pyalchemy0.0.7/docs/_build/html/index.html`. Note that in this version only monoatomic systems have been proven to produce correct results. These shortcomings have been discussed in the [follow-up paper](https://arxiv.org/abs/2312.04458).
 
-- pyalchemy 0.1.0 which includes the code, the examples and a plotting script for Fig. 2 in the first version of the follow-up paper. Note, that this version accidentally ignored the constant term in the first Hohenberg-Kohn theorem and consequently performs meagerly.
+- pyalchemy 0.1.0 which includes the code, the examples and a plotting script for Fig. 2 in the first version of the follow-up paper. Note, that this version accidentally ignored the constant term in the first Hohenberg-Kohn theorem when inverting $v_A$ and consequently performs meagerly.
 
 - The current version, pyalchemy 0.2.0, works for all systems in n dimensions if the problem coordinates of the problem statement can be expressed as the coordinates of the final system via an affine transformation. Check out the examples in the [paper](https://arxiv.org/abs/2312.04458). pyalchemy is available on [PyPI](https://pypi.org/project/pyalchemy/). Run `pip install pyalchemy`.
 
 ## Introduction
 
-Instead of calculating electronic energies of systems one at a time, the kernel of AIT provides a shortcut. By using an initial system's $A$ electron density $\rho_A(\pmb{r}) $, one can calculate the energy difference to another system $B$ .
+Instead of calculating electronic energies of systems one at a time, the kernel of AIT provides a shortcut. By using an initial system's $A$ electron density $\rho_A(\pmb{r}) $, one can calculate the energy difference and relative electron density to another system $B$ .
 
 ...
 
