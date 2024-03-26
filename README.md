@@ -32,8 +32,7 @@ n-dimensional kernel of the Alchemical Integral Transform
 
 **Parameters:**
 - `Delta_v` **: callable**
-  The difference in external potentials, i.e. :math:`v_B(x) - v_A(x)` which takes the nD position as
-    argument
+  The difference in external potentials, i.e. $v_B(x) - v_A(x)$ which takes the nD position as argument
 - `x` **: array of size n**
   The nD position
 - `A` **: callable**
@@ -41,11 +40,11 @@ n-dimensional kernel of the Alchemical Integral Transform
 - `b` **: callable**
   vector offset
 - `rtol` **: float, optional**
-  The relative tolerance of the kernel. It determines the number of steps used in the midpoint rule of the :math:`\lambda`-integration
+  The relative tolerance of the kernel. It determines the number of steps used in the midpoint rule of the $\lambda$-integration
 ​
 **Returns:**
 - **float**
-  The kernel in nD at position :math:`x`
+  The kernel in nD at position $x$
 
 ---
 
@@ -243,7 +242,7 @@ Any Coulombic (multi-)atomic system in 3D with $N$ nuclei and its external poten
 **Parameters**
 
 - `mol` **: array of shape (N,4)**
-  $N$ 4-vectors of nuclear charge and 3D coordinates, , i.e. $\lbrace (Z_1, (\pmb{R}_1)_1, (\pmb{R}_1)_2, (\pmb{R}_1)_3), \\, \dots \rbrace$, e.g. $\text{N}_2$ = `[[7,0,0,0],[7,1.098/0.529,0,0]]`
+  $N$ 4-vectors of nuclear charge and 3D coordinates, i.e. $\lbrace (Z_1, (\pmb{R}_1)_1, (\pmb{R}_1)_2, (\pmb{R}_1)_3), \\, \dots \rbrace$, e.g. $\text{N}_2$ = `[[7,0,0,0],[7,1.098/0.529,0,0]]`
 
 **Attributes**
 
