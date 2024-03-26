@@ -1,6 +1,6 @@
 # PyAlchemy
 
-A library which provides implementations of the kernel of the Alchemical Integral Transform (AIT) for general potentials in $n$D. An introduction to the concept, further explanations and details can be found under https://arxiv.org/abs/2312.04458.
+A library which provides implementations of the kernel of the Alchemical Integral Transform (AIT) for general potentials in $n$ dimensions. An introduction to the concept, further explanations and details can be found under https://arxiv.org/abs/2312.04458.
 
 PyAlchemy uses [Hartree atomic units](https://en.wikipedia.org/wiki/Hartree_atomic_units).
 
@@ -157,7 +157,7 @@ System ''Morse potential'' and its energy $E(n)$, the external potential $v(x)$ 
   - `x` **: float**
     Coordinate
 
-    **Returns**
+  **Returns**
 
   - **float**
     The external potential of the system at coordinate $x$
