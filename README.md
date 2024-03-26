@@ -41,7 +41,7 @@ n-dimensional kernel of the Alchemical Integral Transform
   vector offset
 - `rtol` **: float, optional**
   The relative tolerance of the kernel. It determines the number of steps used in the midpoint rule of the $\lambda$-integration
-​
+
 **Returns:**
 - **float**
   The kernel in nD at position $x$
