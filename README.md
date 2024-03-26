@@ -1,6 +1,6 @@
 # PyAlchemy
 
-A library which provides implementations of the kernel of the Alchemical Integral Transform (AIT) for general potentials in nD. An introduction to the concept, further explanations and details can be found under https://arxiv.org/abs/2312.04458.
+A library which provides implementations of the kernel of the Alchemical Integral Transform (AIT) for general potentials in $n$D. An introduction to the concept, further explanations and details can be found under https://arxiv.org/abs/2312.04458.
 
 PyAlchemy uses [Hartree atomic units](https://en.wikipedia.org/wiki/Hartree_atomic_units).
 
@@ -10,13 +10,11 @@ This repo includes three versions:
 
 - pyalchemy 0.1.0 which includes the code, the examples and a plotting script for Fig. 2 in the first version of the follow-up paper. Note, that this version accidentally ignored the constant term in the first Hohenberg-Kohn theorem when inverting $v_A$ and consequently performs meagerly.
 
-- The current version, pyalchemy 0.2.0, works for all systems in n dimensions if the problem coordinates of the problem statement can be expressed as the coordinates of the final system via an affine transformation. Check out the examples in the [paper](https://arxiv.org/abs/2312.04458). pyalchemy is available on [PyPI](https://pypi.org/project/pyalchemy/). Run `pip install pyalchemy`.
+- The current version, pyalchemy 0.2.0, works for all systems in $n$ dimensions if the problem coordinates of the problem statement can be expressed as the coordinates of the final system via an affine transformation. Check out the examples in the [paper](https://arxiv.org/abs/2312.04458). pyalchemy is available on [PyPI](https://pypi.org/project/pyalchemy/). Run `pip install pyalchemy`.
 
 ## Introduction
 
 Instead of calculating electronic energies of systems one at a time, the kernel of AIT provides a shortcut. By using an initial system's $A$ electron density $\rho_A(\pmb{r}) $, one can calculate the energy difference and relative electron density to another system $B$ .
-
-...
 
 `pyalchemy` provides the kernel $\mathcal{K}$ of AIT, as well as potentials, energies and electron densities of select systems. It does not provide functions for numerical integration or methods of computational chemistry such as (post-)Hartree-Fock methods or Density Functional Theory.
 
