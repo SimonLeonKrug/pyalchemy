@@ -15,21 +15,21 @@ def kernel_nD(Delta_v, x, A=None, b=None, rtol=1e-6):
 ​
     Parameters:
             Delta_v : callable
-                The difference in external potentials, i.e. :math:`v_B(x) - v_A(x)` which takes the nD position as
+                The difference in external potentials, i.e. $v_B(x) - v_A(x)$ which takes the nD position as
                 argument
             x : array of size n
                 The nD position
             A : callable
-                
+                Must return and invertible matrix of size n x n
             b : callable
-
+                Must return a vector of size n
             rtol : float, optional
                 The relative tolerance of the kernel. It determines the number of steps used
-                in the midpoint rule of the :math:`\lambda`-integration
-​
+                in the midpoint rule of the $\lambda$-integration
+
     Returns:
             float
-                the kernel in nD at position :math:`x`
+                the kernel in nD at position $x$
 ​
     """
     # number of steps in the integration, use the midpoint rule

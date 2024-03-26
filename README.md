@@ -36,9 +36,9 @@ n-dimensional kernel of the Alchemical Integral Transform
 - `x` **: array of size n**
   The nD position
 - `A` **: callable**
-  invertible matrix
+  Must return and invertible matrix of size n x n
 - `b` **: callable**
-  vector offset
+  Must return a vector of size n
 - `rtol` **: float, optional**
   The relative tolerance of the kernel. It determines the number of steps used in the midpoint rule of the $\lambda$-integration
 
