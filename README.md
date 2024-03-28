@@ -10,7 +10,7 @@ This repo includes three versions:
 
 - `PyAlchemy` 0.1.0 which includes the code, the examples and a plotting script for Fig. 2 in [the first version of the follow-up paper](https://arxiv.org/abs/2312.04458v1). Note, that this version accidentally ignored the constant term in the first Hohenberg-Kohn theorem when inverting $v_A$ and consequently performs meagerly.
 
-- The current version, `PyAlchemy` 0.2.0, works for all systems in $n$ dimensions if the problem coordinates of the problem statement can be expressed as the coordinates of the final system via an affine transformation. Check out the examples in the [paper](https://arxiv.org/abs/2312.04458). `PyAlchemy` is available on [PyPI](https://pypi.org/project/pyalchemy/). Run `pip install pyalchemy`.
+- The current version, `PyAlchemy` 0.2.0, works for all systems in $n$ dimensions if the coordinates of the problem statement can be expressed as the coordinates of the final system via an affine transformation. Check out the examples in the [paper](https://arxiv.org/abs/2312.04458). `PyAlchemy` is available on [PyPI](https://pypi.org/project/pyalchemy/). Run `pip install pyalchemy`.
 
 ## Introduction
 
